@@ -56,9 +56,9 @@ Kubernetes provides containers with lifecycle hooks. The hooks enable containers
  management lifecycle and run code implemented in a handler when the corresponding lifecycle hook is executed.
 
 In particular, the `PreStop` hook can be called immediately before a container is terminated due to preemption (among
- other events).
-Thus, we can consider an action, whatever it is, to be triggered in case of preemtion. All you need to do is
- implement and register a handler for this hook.
+other events).
+Thus, we can consider an action, whatever it is, to be triggered in case of preemption. All you need to do is
+implement and register a handler for this hook.
 
 See [Container Lifecycle Hooks](https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/).
 

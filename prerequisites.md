@@ -1,9 +1,8 @@
 # Service Account for Driver Pods
 
 Spark driver pods need a Kubernetes service account in the pod's namespace that has permissions to create, get,
-list, and delete executor pods. Please refer to [`yippee-spark-rbac.yaml`](../k8s/yippee-spark-rbac.yaml) for an
-example RBAC setup that creates a driver service account named `yippee-spark` in the namespace `spark-jobs`, with a
-RBAC role binding giving the service account the needed permissions.
+list, and delete executor pods. Below an example RBAC setup that creates a driver service account named `yippee-spark`  
+in the namespace `spark-jobs`, with a RBAC role binding giving the service account the needed permissions.
 
 ```yaml
 apiVersion: v1
