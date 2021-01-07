@@ -1,8 +1,8 @@
 # Service Account for Driver Pods
 
-Spark driver pods need a Kubernetes service account in the pod's namespace that has permissions to create, get,
-list, and delete executor pods. Below an example RBAC setup that creates a driver service account named `yippee-spark`  
-in the namespace `spark-jobs`, with a RBAC role binding giving the service account the needed permissions.
+Spark driver pods need a Kubernetes service account in the pod's namespace that has permissions to create, get, list
+, and delete executor pods. Below an example RBAC setup that creates a driver service account named `yippee-spark` in
+ the namespace `spark-jobs`, with a RBAC role binding giving the service account the needed permissions.
 
 ```yaml
 apiVersion: v1
@@ -62,7 +62,50 @@ kubectl label nodes <node-name> type=compute
 
 # Pod Priority and Preemption
 
-To use priority and preemption capabilities, create the necessary `PriorityClasses`:
+In my project, we aim to run simultaneously multiple parallel Spark jobs. But some workloads have higher priority
+ than others. If a job cannot be scheduled, the scheduler (here, Volcano) tries to preempt (evict) lower priority
+  Pods to make scheduling of the pending Pod possible.
+To use priority and preemption capabilities, we must first create the necessary `PriorityClasses`:
+
+`priorities.yaml`
+```yaml
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: routine
+value: 2
+preemptionPolicy: Never
+globalDefault: false
+description: "Routine priority"
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: urgent
+value: 10
+preemptionPolicy: Never
+globalDefault: false
+description: "Urgent priority"
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: exceptional
+value: 50
+preemptionPolicy: Never
+globalDefault: false
+description: "Exceptional priority"
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: rush
+value: 100
+preemptionPolicy: PreemptLowerPriority
+globalDefault: false
+description: "Rush priority"
+```
 
 ```bash
 kubectl create -f k8s/priorities.yaml
