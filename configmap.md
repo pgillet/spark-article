@@ -1,7 +1,7 @@
 # ConfigMap
 
-We use a [ConfigMap](https://kubernetes.io/docs/concepts/configuration/configmap/) for setting Spark configuration data  
-separately from the driver pod definition.
+We use a [ConfigMap](https://kubernetes.io/docs/concepts/configuration/configmap/) for setting Spark configuration
+ data separately from the driver pod definition.
 
 ```yaml
 apiVersion: v1
@@ -12,7 +12,7 @@ metadata:
   name: spark-${PRIORITY_CLASS_NAME}${NAME_SUFFIX}-cm
   namespace: spark-jobs
 data:
-  PYTHON_MAIN: https://storage.googleapis.com/hippi-spark-k8s-bucket/long_running_pi.py
+  PYTHON_MAIN: https://storage.googleapis.com/yippee-spark-k8s-bucket/long_running_pi.py
   # Comma-separated list of .zip, .egg, or .py files dependencies for Python apps.
   # spark.submit.pyFiles can be used instead in spark-defaults.conf below.
   # PYTHONPATH: ...
@@ -29,7 +29,7 @@ data:
     spark.executor.cores                        1
     spark.executor.memory                       512m
 
-    spark.kubernetes.executor.container.image   eu.gcr.io/hippi-spark-k8s/spark-py:3.0.1
+    spark.kubernetes.executor.container.image   eu.gcr.io/yippee-spark-k8s/spark-py:3.0.1
     spark.kubernetes.container.image.pullPolicy IfNotPresent
     spark.kubernetes.namespace                  spark-jobs
     # Must match the mount path of the ConfigMap volume in driver pod

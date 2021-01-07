@@ -24,13 +24,13 @@ with the following configuration:
 |--------------|:------------------------|
 | region       | europe-west1            |
 | zone         | europe-west1-b          |
-| project-id   | hippi-spark-k8s         |
-| cluster name | hippi-spark-k8s-cluster |
+| project-id   | yippee-spark-k8s         |
+| cluster name | yippee-spark-k8s-cluster |
 
 # Create a GKE cluster:
 
 ```bash
-gcloud beta container --project "hippi-spark-k8s" clusters create "hippi-spark-k8s-cluster" --zone "europe-west1-b" --no-enable-basic-auth --cluster-version "1.15.12-gke.5000" --machine-type "n2-standard-2" --image-type "COS" --disk-type "pd-standard" --disk-size "100" --metadata disable-legacy-endpoints=true --scopes "https://www.googleapis.com/auth/devstorage.read_only","https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring","https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly","https://www.googleapis.com/auth/trace.append" --num-nodes "3" --enable-stackdriver-kubernetes --enable-ip-alias --network "projects/hippi-spark-k8s/global/networks/default" --subnetwork "projects/hippi-spark-k8s/regions/europe-west1/subnetworks/default" --default-max-pods-per-node "110" --no-enable-master-authorized-networks --addons HorizontalPodAutoscaling,HttpLoadBalancing --enable-autoupgrade --enable-autorepair --max-surge-upgrade 1 --max-unavailable-upgrade 0
+gcloud beta container --project "yippee-spark-k8s" clusters create "yippee-spark-k8s-cluster" --zone "europe-west1-b" --no-enable-basic-auth --cluster-version "1.15.12-gke.5000" --machine-type "n2-standard-2" --image-type "COS" --disk-type "pd-standard" --disk-size "100" --metadata disable-legacy-endpoints=true --scopes "https://www.googleapis.com/auth/devstorage.read_only","https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring","https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly","https://www.googleapis.com/auth/trace.append" --num-nodes "3" --enable-stackdriver-kubernetes --enable-ip-alias --network "projects/yippee-spark-k8s/global/networks/default" --subnetwork "projects/yippee-spark-k8s/regions/europe-west1/subnetworks/default" --default-max-pods-per-node "110" --no-enable-master-authorized-networks --addons HorizontalPodAutoscaling,HttpLoadBalancing --enable-autoupgrade --enable-autorepair --max-surge-upgrade 1 --max-unavailable-upgrade 0
 ```
 
 ## Configure cluster access for kubectl
@@ -38,7 +38,7 @@ gcloud beta container --project "hippi-spark-k8s" clusters create "hippi-spark-k
 Generate a `kubeconfig` context entry by running the following command:
 
 ```bash
-gcloud container clusters get-credentials hippi-spark-k8s-cluster
+gcloud container clusters get-credentials yippee-spark-k8s-cluster
 ```
 
 You can modify the default namespace for your `kubectl` commands in this context :
@@ -64,4 +64,4 @@ gcloud auth configure-docker
 docker push eu.gcr.io/<project-id>/spark-py:<tag>
 ```
 
-with `project-id=hippi-spark-k8s` and `tag` set to the version of Spark, here `3.0.1`.
+with `project-id=yippee-spark-k8s` and `tag` set to the version of Spark, here `3.0.1`.

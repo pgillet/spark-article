@@ -68,7 +68,7 @@ kubectl apply -f examples/spark-py-pi.yaml
 ```
 
 According to our [configuration](../docs/gke.md#service-account-for-driver-pods), `.metadata.namespace` must be set to 
-"spark-jobs" and  `.spec.driver.serviceAccount` is set to the name of the service account "hippi-spark" previously 
+"spark-jobs" and  `.spec.driver.serviceAccount` is set to the name of the service account "yippee-spark" previously 
 created.
 
 # Limitations (in my humble opinion)

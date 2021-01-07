@@ -13,17 +13,17 @@ kubectl get events --sort-by=.metadata.creationTimestamp
 <pre>
 LAST SEEN   TYPE      REASON             OBJECT                                                   MESSAGE
 69s         Normal    Scheduled          podgroup/podgroup-6083b4f9-f240-4a0e-95f2-06882aec2942   pod group is ready
-93s         Normal    Scheduled          pod/pyspark-pi-driver-routine-bf20cae50b6a8253           Successfully assigned spark-jobs/pyspark-pi-driver-routine-bf20cae50b6a8253 to gke-hippi-spark-k8s-clus-default-pool-0b72dd1d-jpfp
+93s         Normal    Scheduled          pod/pyspark-pi-driver-routine-bf20cae50b6a8253           Successfully assigned spark-jobs/pyspark-pi-driver-routine-bf20cae50b6a8253 to gke-yippee-spark-k8s-clus-default-pool-0b72dd1d-jpfp
 92s         Normal    Started            pod/pyspark-pi-driver-routine-bf20cae50b6a8253           Started container pyspark-pi
-92s         Normal    Pulled             pod/pyspark-pi-driver-routine-bf20cae50b6a8253           Container image "eu.gcr.io/hippi-spark-k8s/spark-py:3.0.1" already present on machine
+92s         Normal    Pulled             pod/pyspark-pi-driver-routine-bf20cae50b6a8253           Container image "eu.gcr.io/yippee-spark-k8s/spark-py:3.0.1" already present on machine
 92s         Normal    Created            pod/pyspark-pi-driver-routine-bf20cae50b6a8253           Created container pyspark-pi
-82s         Normal    Scheduled          pod/pythonpi-34b3597593d246a1-exec-2                     Successfully assigned spark-jobs/pythonpi-34b3597593d246a1-exec-2 to gke-hippi-spark-k8s-clus-default-pool-0b72dd1d-pvdl
-82s         Normal    Scheduled          pod/pythonpi-34b3597593d246a1-exec-1                     Successfully assigned spark-jobs/pythonpi-34b3597593d246a1-exec-1 to gke-hippi-spark-k8s-clus-default-pool-0b72dd1d-wxck
+82s         Normal    Scheduled          pod/pythonpi-34b3597593d246a1-exec-2                     Successfully assigned spark-jobs/pythonpi-34b3597593d246a1-exec-2 to gke-yippee-spark-k8s-clus-default-pool-0b72dd1d-pvdl
+82s         Normal    Scheduled          pod/pythonpi-34b3597593d246a1-exec-1                     Successfully assigned spark-jobs/pythonpi-34b3597593d246a1-exec-1 to gke-yippee-spark-k8s-clus-default-pool-0b72dd1d-wxck
 82s         Normal    Created            pod/pythonpi-34b3597593d246a1-exec-1                     Created container spark-kubernetes-executor
 82s         Normal    Started            pod/pythonpi-34b3597593d246a1-exec-1                     Started container spark-kubernetes-executor
-82s         Normal    Pulled             pod/pythonpi-34b3597593d246a1-exec-1                     Container image "eu.gcr.io/hippi-spark-k8s/spark-py:3.0.1" already present on machine
+82s         Normal    Pulled             pod/pythonpi-34b3597593d246a1-exec-1                     Container image "eu.gcr.io/yippee-spark-k8s/spark-py:3.0.1" already present on machine
 81s         Normal    Created            pod/pythonpi-34b3597593d246a1-exec-2                     Created container spark-kubernetes-executor
-81s         Normal    Pulled             pod/pythonpi-34b3597593d246a1-exec-2                     Container image "eu.gcr.io/hippi-spark-k8s/spark-py:3.0.1" already present on machine
+81s         Normal    Pulled             pod/pythonpi-34b3597593d246a1-exec-2                     Container image "eu.gcr.io/yippee-spark-k8s/spark-py:3.0.1" already present on machine
 80s         Normal    Started            pod/pythonpi-34b3597593d246a1-exec-2                     Started container spark-kubernetes-executor
 42s         Normal    Killing            pod/pythonpi-34b3597593d246a1-exec-1                     Stopping container spark-kubernetes-executor
 42s         Normal    Killing            pod/pythonpi-34b3597593d246a1-exec-2                     Stopping container spark-kubernetes-executor
@@ -33,16 +33,16 @@ LAST SEEN   TYPE      REASON             OBJECT                                 
 34s         Warning   Unschedulable      podgroup/podgroup-ee4b9210-35c2-4d68-841a-2daf7712a816   0/1 tasks in gang unschedulable: pod group is not ready, 1 Pipelined, 1 minAvailable.
 41s         Warning   FailedScheduling   pod/pyspark-pi-driver-urgent-bb25fc0b8efe7c4d            1/1 tasks in gang unschedulable: pod group is not ready, 1 Pipelined, 1 minAvailable.
 18s         Normal    Scheduled          podgroup/podgroup-ee4b9210-35c2-4d68-841a-2daf7712a816   pod group is ready
-33s         Normal    Scheduled          pod/pyspark-pi-driver-urgent-bb25fc0b8efe7c4d            Successfully assigned spark-jobs/pyspark-pi-driver-urgent-bb25fc0b8efe7c4d to gke-hippi-spark-k8s-clus-default-pool-0b72dd1d-jpfp
+33s         Normal    Scheduled          pod/pyspark-pi-driver-urgent-bb25fc0b8efe7c4d            Successfully assigned spark-jobs/pyspark-pi-driver-urgent-bb25fc0b8efe7c4d to gke-yippee-spark-k8s-clus-default-pool-0b72dd1d-jpfp
 32s         Normal    Started            pod/pyspark-pi-driver-urgent-bb25fc0b8efe7c4d            Started container pyspark-pi
 32s         Normal    Created            pod/pyspark-pi-driver-urgent-bb25fc0b8efe7c4d            Created container pyspark-pi
-32s         Normal    Pulled             pod/pyspark-pi-driver-urgent-bb25fc0b8efe7c4d            Container image "eu.gcr.io/hippi-spark-k8s/spark-py:3.0.1" already present on machine
-22s         Normal    Scheduled          pod/pythonpi-f36cce7593d332f1-exec-1                     Successfully assigned spark-jobs/pythonpi-f36cce7593d332f1-exec-1 to gke-hippi-spark-k8s-clus-default-pool-0b72dd1d-wxck
-22s         Normal    Scheduled          pod/pythonpi-f36cce7593d332f1-exec-2                     Successfully assigned spark-jobs/pythonpi-f36cce7593d332f1-exec-2 to gke-hippi-spark-k8s-clus-default-pool-0b72dd1d-pvdl
-22s         Normal    Pulled             pod/pythonpi-f36cce7593d332f1-exec-1                     Container image "eu.gcr.io/hippi-spark-k8s/spark-py:3.0.1" already present on machine
+32s         Normal    Pulled             pod/pyspark-pi-driver-urgent-bb25fc0b8efe7c4d            Container image "eu.gcr.io/yippee-spark-k8s/spark-py:3.0.1" already present on machine
+22s         Normal    Scheduled          pod/pythonpi-f36cce7593d332f1-exec-1                     Successfully assigned spark-jobs/pythonpi-f36cce7593d332f1-exec-1 to gke-yippee-spark-k8s-clus-default-pool-0b72dd1d-wxck
+22s         Normal    Scheduled          pod/pythonpi-f36cce7593d332f1-exec-2                     Successfully assigned spark-jobs/pythonpi-f36cce7593d332f1-exec-2 to gke-yippee-spark-k8s-clus-default-pool-0b72dd1d-pvdl
+22s         Normal    Pulled             pod/pythonpi-f36cce7593d332f1-exec-1                     Container image "eu.gcr.io/yippee-spark-k8s/spark-py:3.0.1" already present on machine
 21s         Normal    Started            pod/pythonpi-f36cce7593d332f1-exec-1                     Started container spark-kubernetes-executor
 21s         Normal    Created            pod/pythonpi-f36cce7593d332f1-exec-1                     Created container spark-kubernetes-executor
-21s         Normal    Pulled             pod/pythonpi-f36cce7593d332f1-exec-2                     Container image "eu.gcr.io/hippi-spark-k8s/spark-py:3.0.1" already present on machine
+21s         Normal    Pulled             pod/pythonpi-f36cce7593d332f1-exec-2                     Container image "eu.gcr.io/yippee-spark-k8s/spark-py:3.0.1" already present on machine
 21s         Normal    Created            pod/pythonpi-f36cce7593d332f1-exec-2                     Created container spark-kubernetes-executor
 21s         Normal    Started            pod/pythonpi-f36cce7593d332f1-exec-2                     Started container spark-kubernetes-executor
 </pre>
