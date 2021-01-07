@@ -50,8 +50,9 @@ By default, the scheduler automatically places pods on nodes by ensuring nodes h
 , distributing pods evenly across nodes, etc.
 But there are circumstances where you may want more control on a node where a pod lands, for example to ensure that a
  pod ends up on a memory-optimized or compute-optimized machine, or with an SSD attached to it.
-In our case, Spark executors need more resources than drivers. We need to constrain driver pods and executor pods to
- only be able to run on particular node(s). We will use [label selectors](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) to make the selection.
+In our case, Spark executors need more resources than drivers. We thus need to constrain driver pods and executor
+ pods to only be able to run on particular node(s). We will use 
+ [label selectors](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) to make the selection.
 
 Execute the following command for the node(s) intended to execute driver pods:
 
