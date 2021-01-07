@@ -41,11 +41,48 @@ But we **DO NOT** want to rely on the default `kubeconfig` file, denoted by the 
 , failing that, in `~/.kube/config`. This `kubeconfig` file is yours, as user of the `kubectl` command. Concretely
 , with this `kubeconfig` file, you have the right to do almost everything in the K8s cluster, and in all namespaces
 . Instead, we're going to generate one especially for the service account created above, with the help of the script
- [`kubeconfig-gen.sh`](../scripts/kubeconfig-gen.sh).
+`kubeconfig-gen.sh`:
+
+```bash
+#!/usr/bin/env bash
+
+# set -eux
+
+APISERVER=$(kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}')
+
+SERVICE_ACCOUNT_NAME=${1:-python-client-sa}
+NAMESPACE=${2:-spark-jobs}
+SECRET_NAME=$(kubectl get serviceaccount ${SERVICE_ACCOUNT_NAME} -n ${NAMESPACE} -o jsonpath='{.secrets[0].name}')
+TOKEN=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o jsonpath='{.data.token}' | base64 --decode)
+CACERT=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o jsonpath="{['data']['ca\.crt']}")
+
+
+cat > kubeconfig-sa << EOF
+apiVersion: v1
+kind: Config
+clusters:
+- cluster:
+    certificate-authority-data: ${CACERT}
+    server: ${APISERVER}
+  name: default-cluster
+contexts:
+- context:
+    cluster: default-cluster
+    namespace: ${NAMESPACE}
+    user: ${SERVICE_ACCOUNT_NAME}
+  name: default-context
+current-context: default-context
+users:
+- user:
+    token: ${TOKEN}
+  name: ${SERVICE_ACCOUNT_NAME}
+EOF
+```
+
 The `kubeconfig-gen.sh` script effectively uses the default `kubeconfig` file, but its purpose is to generate another
- `kubeconfig` file that configures access to the cluster for the `python-client-sa` service account, with only the
-  rights needed for the `spark_client` Python library in the single namespace `spark-jobs` (_"principle of least
-   privilege"_).
+`kubeconfig` file that configures access to the cluster for the `python-client-sa` service account, with only the
+rights needed for the `spark_client` Python library in the single namespace `spark-jobs` (_"principle of least
+privilege"_).
 
 # The Hard Way
 

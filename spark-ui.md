@@ -5,11 +5,55 @@ Install [Traefik](https://doc.traefik.io/traefik/providers/kubernetes-ingress/) 
 
 # Ingress
 
-The Spark UI is accessible by creating a service of type `ClusterIP` which exposes the UI from the driver pod (see 
-[spark-ui-svc.yaml](../spark_client/kubernetes/k8s/spark-native/spark-ui-svc.yaml)). This is only accessible from
- within the cluster. We must then create an Ingress to expose the UI outside the cluster (see 
- [spark-ui-ingress.yaml](../spark_client/kubernetes/k8s/spark-native/spark-ui-ingress.yaml)).
- 
+The Spark UI is accessible by creating a service of type `ClusterIP` which exposes the UI from the driver pod:
+
+`spark-ui-svc.yaml`
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app-name: spark-${PRIORITY_CLASS_NAME}${NAME_SUFFIX}
+  name: spark-${PRIORITY_CLASS_NAME}${NAME_SUFFIX}-ui-svc
+  namespace: spark-jobs
+spec:
+  ports:
+  - name: spark-driver-ui-port
+    port: 4040
+    protocol: TCP
+    targetPort: 4040
+  selector:
+    app-name: spark-${PRIORITY_CLASS_NAME}${NAME_SUFFIX}
+    spark-role: driver
+  type: ClusterIP
+```
+
+This is only accessible from within the cluster. We must then create an Ingress to expose the UI outside the cluster:
+
+`spark-ui-ingress.yaml`
+```yaml
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  labels:
+    app-name: spark-${PRIORITY_CLASS_NAME}${NAME_SUFFIX}
+  name: spark-${PRIORITY_CLASS_NAME}${NAME_SUFFIX}-ui-ingress
+  namespace: spark-jobs
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/proxy-redirect-from: "http://$host/"
+    nginx.ingress.kubernetes.io/proxy-redirect-to: "http://$host/spark-${PRIORITY_CLASS_NAME}${NAME_SUFFIX}/"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /spark-${PRIORITY_CLASS_NAME}${NAME_SUFFIX}(/|$)(.*)
+        backend:
+          serviceName: spark-${PRIORITY_CLASS_NAME}${NAME_SUFFIX}-ui-svc
+          servicePort: 4040
+```
+
 The Ingress is backed by as many services as driver pods that run concurrently in the cluster. Each UI must then be
  addressed with a unique `path` in the Ingress. The path in question is directly derived from the name of the Spark
   application, with its unique ID. 
