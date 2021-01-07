@@ -47,7 +47,7 @@ kubectl create -f k8s/yippee-spark-rbac.yaml
 # Node Affinity
 
 By default, the scheduler automatically places pods on nodes by ensuring nodes have sufficient free resources
-, distributing evenly pods across nodes, etc.
+, distributing pods evenly across nodes, etc.
 But there are circumstances where you may want more control on a node where a pod lands, for example to ensure that a
  pod ends up on a memory-optimized or compute-optimized machine, or with an SSD attached to it.
 In our case, Spark executors need more resources than drivers. We need to constrain driver pods and executor pods to
