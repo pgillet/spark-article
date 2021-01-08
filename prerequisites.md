@@ -49,7 +49,7 @@ kubectl create -f k8s/yippee-spark-rbac.yaml
 By default, the scheduler automatically places pods on nodes by ensuring nodes have sufficient free resources
 , distributing pods evenly across nodes, etc.
 But there are circumstances where you may want more control on a node where a pod lands, for example to ensure that a
- pod ends up on a memory-optimized or compute-optimized machine, or with an SSD attached to it.
+ pod ends up on a memory or compute-optimized machine, or with an SSD attached to it.
 In our case, Spark executors need more resources than drivers. We thus need to constrain driver pods and executor
  pods to only be able to run on particular node(s). We will use 
  [Node Affinities](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) with 
@@ -69,7 +69,7 @@ kubectl label nodes <node-name> type=compute
 
 # Pod Priority and Preemption
 
-In my project, we aim to run simultaneously multiple parallel Spark jobs. But some workloads have higher priority
+In my project, we aim to run multiple Spark jobs simultaneously in parallel. But some workloads have higher priority
  than others. If a job cannot be scheduled, the scheduler (here, Volcano) tries to preempt (evict) lower priority
   Pods to make scheduling of the pending Pod possible.
 To use priority and preemption capabilities, we must first create the necessary `PriorityClasses`:
