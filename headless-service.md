@@ -10,6 +10,28 @@ Spark executors must be able to connect to the Spark driver by the means of Kube
     pass to the executors the driver’s hostname via `spark.driver.host` with the service name and the spark driver’s
      port to `spark.driver.port`.
 
+`spark-driver-svc.yaml`     
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app-name: spark-${PRIORITY_CLASS_NAME}${NAME_SUFFIX}
+  name: spark-${PRIORITY_CLASS_NAME}${NAME_SUFFIX}-driver-svc
+  namespace: spark-jobs
+spec:
+  clusterIP: None
+  ports:
+  - name: 5678-5678
+    port: 5678
+    protocol: TCP
+    targetPort: 5678
+  selector:
+    app-name: spark-${PRIORITY_CLASS_NAME}${NAME_SUFFIX}
+    spark-role: driver
+  type: ClusterIP
+```
+
 # Executor Pod Garbage Collection
 
 We must also set `spark.kubernetes.driver.pod.name` for the executors to the name of the driver pod. When this
