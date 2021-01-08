@@ -52,6 +52,7 @@ But there are circumstances where you may want more control on a node where a po
  pod ends up on a memory-optimized or compute-optimized machine, or with an SSD attached to it.
 In our case, Spark executors need more resources than drivers. We thus need to constrain driver pods and executor
  pods to only be able to run on particular node(s). We will use 
+ [Node Affinities](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) with 
  [label selectors](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) to make the selection.
 
 Execute the following command for the node(s) intended to execute driver pods:
