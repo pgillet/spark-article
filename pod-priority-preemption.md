@@ -1,7 +1,8 @@
 Whether it is Volcano or the default `kube-scheduler`, job preemption relies on job priorities. For two jobs, the 
 scheduler decides whose priority is higher by comparing `.spec.priorityClassName` (then `createTime`).
 
-The priority is propagated to driver and executor pods, whether with native spark-submit or with Spark Operator, and regardless of the node affinities.
+The priority is propagated to driver and executor pods, whether with native spark-submit or with Spark Operator, and
+ regardless of the node affinities.
 
 # How to know which pods have been preempted
 
