@@ -1,6 +1,6 @@
 As you know, when you apply a manifest file to Kubernetes - the YAML-formatted resource descriptions that Kubernetes
  can understand - you must specify the resource name which must be unique for that type of resource (and within the
-  same namespace), otherwise Kubernetes will complain that the resource already exist.
+  same namespace), otherwise Kubernetes will complain that the resource already exists.
 
 For example, you can only have one Pod named `myapp-1234` within the same namespace, but you can have one Pod and one
  Deployment that are each named `myapp-1234`.
