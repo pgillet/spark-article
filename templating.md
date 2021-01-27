@@ -9,8 +9,8 @@ As we want to run multiple Spark jobs simultaneously, and as these Spark jobs ar
  runtime parameters, we need to parameterize, or _templatize_, our Kubernetes YAML files.
  
 Normally, you don't do that, at least that's not in Kubernetes' philosophy: Kubernetes files should be template-free
- and should only be patched, by the means of [Kustomize](https://kubernetes.io/docs/tasks/manage-kubernetes-objects
- /kustomization/) for instance. [Helm](https://helm.sh/) has also its own templating system.  
+ and should only be patched, by the means of [Kustomize](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/) 
+ for instance. [Helm](https://helm.sh/) has also its own templating system.  
 
 But as we want to automate a maximum of things, and we want to operate Kubernetes from Python code (Yes, we do! Oh
 , my god, what a plot twist! See the following section), we cannot use such a tool.
