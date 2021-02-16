@@ -1,5 +1,8 @@
-The `spark_client` library depends on the Kubernetes Python Client.
-Please refer to [Kubernetes Python Client](https://github.com/kubernetes-client/python) for install and setup.
+We need to operate Kubernetes as part of a Python client application. So, we need to interact with the Kubernetes
+ REST API. Luckily we do not need to implement the API calls and manage HTTP requests/responses ourselves: we
+  can rely on the [Kubernetes Python client](https://github.com/kubernetes-client/python), among other officially
+  -supported Kubernetes client libraries for other languages such as Go, Java, dotnet, JavaScript and Haskell (there
+   are also a lot of community-maintained client libraries for many languages).
 
 When using the Kubernetes Python Client library, we must first load authentication and cluster information.
 
@@ -76,7 +79,7 @@ This command creates a new service account named `python-client-sa`, a new role 
 `spark-jobs` namespace and then binds the new role to the newly created service account.
 
 **WARNING**: The `python-client-sa` is the service account that will provide the identity for the Kubernetes Python 
-Client in the `spark_client` library. Do not confuse this service account with the `yippee-spark` service account for 
+Client in our application. Do not confuse this service account with the `yippee-spark` service account for 
 driver pods.
 
 # The Easy Way
@@ -100,15 +103,17 @@ for i in ret.items:
 
 But we **DO NOT** want to rely on the default `kubeconfig` file, denoted by the environment variable `KUBECONFIG` or
 , failing that, in `~/.kube/config`. This `kubeconfig` file is yours, as user of the `kubectl` command. Concretely
-, with this `kubeconfig` file, you have the right to do almost everything in the K8s cluster, and in all namespaces
-. Instead, we're going to generate one especially for the service account created above, with the help of the script
-`kubeconfig-gen.sh`:
+, with this `kubeconfig` file, you have the right to do almost everything in the Kubernetes cluster, and in all 
+namespaces. Instead, we're going to generate one especially for the service account created above, with the help of 
+the script `kubeconfig-gen.sh`:
 
 ```bash
 #!/usr/bin/env bash
 
 # set -eux
 
+# Reads the API server name from the default `kubeconfig` file.
+# Here we suppose that the kubectl command-line tool is already configured to communicate with our cluster.
 APISERVER=$(kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}')
 
 SERVICE_ACCOUNT_NAME=${1:-python-client-sa}
@@ -140,10 +145,9 @@ users:
 EOF
 ```
 
-The `kubeconfig-gen.sh` script effectively uses the default `kubeconfig` file, but its purpose is to generate another
-`kubeconfig` file that configures access to the cluster for the `python-client-sa` service account, with only the
-rights needed for the `spark_client` Python library in the single namespace `spark-jobs` (_"principle of least
-privilege"_).
+The `kubeconfig` file thus created configures access to the cluster for the `python-client-sa` service account, with
+ only the rights needed for our client application and in the single namespace `spark-jobs` (_"principle of least
+  privilege"_).
 
 # The Hard Way
 
