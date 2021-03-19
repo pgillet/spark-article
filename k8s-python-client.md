@@ -6,7 +6,7 @@ We need to operate Kubernetes as part of a Python client application. So, we nee
 
 When using the Kubernetes Python Client library, we must first load authentication and cluster information.
 
-# Service Account and Role Binding
+# Load Authentication And Cluster Information
 
 First, you need to setup the required service account and roles.
 
@@ -82,7 +82,7 @@ This command creates a new service account named `python-client-sa`, a new role 
 Client in our application. Do not confuse this service account with the `yippee-spark` service account for 
 driver pods.
 
-# The Easy Way
+## The Easy Way
 
 In this method, we can use an helper utility to load authentication and cluster information from a `kubeconfig` file and
  store them in `kubernetes.client.configuration`.
@@ -149,12 +149,12 @@ The `kubeconfig` file thus created configures access to the cluster for the `pyt
  only the rights needed for our client application and in the single namespace `spark-jobs` (_"principle of least
   privilege"_).
 
-# The Hard Way
+## The Hard Way
 
-## Fetch credentials
+### Fetch credentials
 
 Here, we're going to configure the Python client in the most programmatic way possible.  
-First, we need to fetch the credentials to access the Kubernetes cluster. We’ll store these in python environmental 
+First, we need to fetch the credentials to access the Kubernetes cluster. We’ll store these in Python environmental
 variables.
 
 ```bash
@@ -168,7 +168,7 @@ Note that environment variables are captured the first time the `os` module is i
 startup. Changes to the environment made after this time are not reflected in `os.environ` (except for changes made by 
 modifying os.environ directly).
 
-## Python sample usage
+### Python sample usage
 
 ```python
 import base64
@@ -200,3 +200,162 @@ ret = v1.list_namespaced_pod(namespace="spark-jobs")
 for i in ret.items:
     print("%s\t%s\t%s" % (i.status.pod_ip, i.metadata.namespace, i.metadata.name))
 ```
+
+# Getting Started
+
+## Kubernetes Object Management
+
+With the Kubernetes Python Client, you can create and manage Kubernetes objects programmatically.
+
+In the following example (provided in the 
+[Github repository](https://githubcom/kubernetes-client/python/blob/master/examples/deployment_crud.py)), we create, 
+update then delete a `Deployment` using `AppsV1Api`:
+
+```Python
+"""
+Creates, updates, and deletes a deployment using AppsV1Api.
+"""
+
+from kubernetes import client, config
+
+DEPLOYMENT_NAME = "nginx-deployment"
+
+
+def create_deployment_object():
+    # Configureate Pod template container
+    container = client.V1Container(
+        name="nginx",
+        image="nginx:1.15.4",
+        ports=[client.V1ContainerPort(container_port=80)],
+        resources=client.V1ResourceRequirements(
+            requests={"cpu": "100m", "memory": "200Mi"},
+            limits={"cpu": "500m", "memory": "500Mi"}
+        )
+    )
+    # Create and configurate a spec section
+    template = client.V1PodTemplateSpec(
+        metadata=client.V1ObjectMeta(labels={"app": "nginx"}),
+        spec=client.V1PodSpec(containers=[container]))
+    # Create the specification of deployment
+    spec = client.V1DeploymentSpec(
+        replicas=3,
+        template=template,
+        selector={'matchLabels': {'app': 'nginx'}})
+    # Instantiate the deployment object
+    deployment = client.V1Deployment(
+        api_version="apps/v1",
+        kind="Deployment",
+        metadata=client.V1ObjectMeta(name=DEPLOYMENT_NAME),
+        spec=spec)
+
+    return deployment
+
+
+def create_deployment(api_instance, deployment):
+    # Create deployement
+    api_response = api_instance.create_namespaced_deployment(
+        body=deployment,
+        namespace="default")
+    print("Deployment created. status='%s'" % str(api_response.status))
+
+
+def update_deployment(api_instance, deployment):
+    # Update container image
+    deployment.spec.template.spec.containers[0].image = "nginx:1.16.0"
+    # Update the deployment
+    api_response = api_instance.patch_namespaced_deployment(
+        name=DEPLOYMENT_NAME,
+        namespace="default",
+        body=deployment)
+    print("Deployment updated. status='%s'" % str(api_response.status))
+
+
+def delete_deployment(api_instance):
+    # Delete deployment
+    api_response = api_instance.delete_namespaced_deployment(
+        name=DEPLOYMENT_NAME,
+        namespace="default",
+        body=client.V1DeleteOptions(
+            propagation_policy='Foreground',
+            grace_period_seconds=5))
+    print("Deployment deleted. status='%s'" % str(api_response.status))
+
+
+def main():
+    # Configs can be set in Configuration class directly or using helper
+    # utility. If no argument provided, the config will be loaded from
+    # default location.
+    config.load_kube_config()
+    apps_v1 = client.AppsV1Api()
+
+    deployment = create_deployment_object()
+
+    create_deployment(apps_v1, deployment)
+
+    update_deployment(apps_v1, deployment)
+
+    delete_deployment(apps_v1)
+
+
+if __name__ == '__main__':
+    main()
+```
+
+This is great, but this involves mastering the client's API, and above all we must configure our objects 
+_imperatively_: we specify the desired operation (create, replace, etc.) on Python objects that represent Kubernetes 
+objects. Here, we prefer to manage our objects in a _declarative_ way and operate on object configuration files (stored 
+locally along the Python code source) like we usually do with the `kubectl` command.
+
+The deployment we created above is the same as in the `nginx-deployment.yaml`:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.15.4
+        ports:
+        - containerPort: 80
+```
+
+We can directly load the manifest as follows:
+
+```yaml
+from os import path
+
+import yaml
+
+from kubernetes import client, config
+
+
+def main():
+    config.load_kube_config()
+
+    with open(path.join(path.dirname(__file__), "nginx-deployment.yaml")) as f:
+        dep = yaml.safe_load(f)
+        k8s_apps_v1 = client.AppsV1Api()
+        resp = k8s_apps_v1.create_namespaced_deployment(
+            body=dep, namespace="default")
+        print("Deployment created. status='%s'" % resp.metadata.name)
+
+
+if __name__ == '__main__':
+    main()
+```
+
+
+
