@@ -25,15 +25,15 @@ metadata:
 ...
 ```
 
-The Spark Operator automatically sets the value of `ownerReference`. The driver pod owns its executors, but the
- overall owner object is the custom `SparkApplication` resource.
+The Spark Operator automatically sets the value of `ownerReference`, at different levels: the custom `SparkApplication` 
+resource owns the driver pod which owns its executors.
 
-For applications that are submitted *natively* (without the Spark Operator), the owner object is the driver pod and the
- executor pods also automatically set the `ownerReference` field. But it must be defined "manually" for the other 
- `ConfigMap`, `Service` and `Ingress` resources. 
-This is managed imperatively in the code, and not in a declarative way in the YAML definition files (we must indeed
- retrieve the auto-generated `uid` of the newly created driver pod and inject it into the dependent objects, this can 
- only be done at runtime in the code).
+For applications that are submitted *natively* (without the Spark Operator), the highest level owner object is the 
+driver pod: the executor pods automatically set the `ownerReference` field, pointing to the driver pod. But we must 
+manage the ownership relationship ourselves for the other `ConfigMap`, `Service` and `Ingress` resources.
+For this, we must retrieve the auto-generated `uid` of the newly created driver pod and inject it into the dependent 
+objects: it is impossible to manually set the `uid` in the YAML definition files, this can only be done at runtime 
+through code.
 
 # Applications normally completed
 When an application completes normally, the executor pods terminate and are cleaned up, but the driver pod persists
@@ -52,11 +52,11 @@ spec:
   timeToLiveSeconds: 86400
 ```
 
-On the native Spark side, there is nothing in the doc that specifies how driver pods are ultimately deleted. Ultimately,  
-we can think of a simple Kubernetes [`CronJob`](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/)  
+On the native Spark side, there is nothing in the doc that specifies how driver pods are ultimately deleted.  
+We could set up a simple Kubernetes [`CronJob`](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/)  
 that would run periodically to delete them automatically.
 
-FYI, at the time of writing this manual, there are pending requests in Kubernetes to support TTL in `Pods` like in  
+At the time of writing this manual, there are pending requests in Kubernetes to support TTL in `Pods` like in  
 `Jobs`: _"TTL controller only handles Jobs for now, and may be expanded to handle other resources that will finish  
 execution, such as Pods and custom resources."_
 

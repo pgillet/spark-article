@@ -364,7 +364,7 @@ This is the equivalent in Python of `kubectl create -f nginx-deployment.yaml`.
 As you can see, you must call `create_namespaced_deployment` to create a Deployment. In the same way, you would 
 call `create_namespaced_pod` to create a Pod, and so on. 
 
-it's a shame to have to call a specific method to create a particular type of object, even though the type of object 
+It's a shame to have to call a specific method to create a particular type of object, even though the type of object 
 itself is already specified in the manifest that we load through this method. it's all the more a shame that this 
 system cannot support 
 [custom resources](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/), that 
@@ -393,6 +393,6 @@ if __name__ == '__main__':
     main()
 ```
 
-
+`utils.create_from_dict` is the magic method here.
 
 
