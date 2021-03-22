@@ -382,9 +382,9 @@ def main():
 
     with open(path.join(path.dirname(__file__), "nginx-deployment.yaml")) as f:
         dep = yaml.safe_load(f)
-        k8s_client = ApiClient()
-        utils.create_from_dict(k8s_client, dep)
-        print("Deployment created. status='%s'" % resp.metadata.name)
+        k8s_client = client.ApiClient()
+        resp = utils.create_from_dict(k8s_client, dep)
+        print("Deployment created. status='%s'" % resp[0].metadata.name)
 
 
 if __name__ == '__main__':
