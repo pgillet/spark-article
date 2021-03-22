@@ -1,8 +1,8 @@
 We need to operate Kubernetes as part of a Python client application. So, we need to interact with the Kubernetes
  REST API. Luckily we do not need to implement the API calls and manage HTTP requests/responses ourselves: we
-  can rely on the [Kubernetes Python client](https://github.com/kubernetes-client/python), among other officially
-  -supported Kubernetes client libraries for other languages such as Go, Java, dotnet, JavaScript and Haskell (there
-   are also a lot of community-maintained client libraries for many languages).
+  can rely on the [Kubernetes Python client](https://github.com/kubernetes-client/python), among other 
+officially-supported Kubernetes client libraries for other languages such as Go, Java, dotnet, JavaScript and 
+Haskell (there are also a lot of community-maintained client libraries for many languages).
 
 When using the Kubernetes Python Client library, we must first load authentication and cluster information.
 
@@ -211,7 +211,7 @@ In the following example (provided in the
 [Github repository](https://githubcom/kubernetes-client/python/blob/master/examples/deployment_crud.py)), we create, 
 update then delete a `Deployment` using `AppsV1Api`:
 
-```Python
+```python
 """
 Creates, updates, and deletes a deployment using AppsV1Api.
 """
@@ -334,7 +334,7 @@ spec:
 
 We can directly load the manifest as follows:
 
-```yaml
+```python
 from os import path
 
 import yaml
@@ -356,6 +356,41 @@ def main():
 if __name__ == '__main__':
     main()
 ```
+
+This is the equivalent in Python of `kubectl create -f nginx-deployment.yaml`.
+
+As you can see, you must call `create_namespaced_deployment` to create a Deployment. In the same way, you would 
+call `create_namespaced_pod` to create a Pod, and so on. 
+
+it's a shame to have to call a specific method to create a particular type of object, even though the type of object 
+itself is already specified in the manifest that we load through this method. it's all the more a shame that this 
+system cannot support 
+[custom resources](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/), that 
+means object types that are not part of the core Kubernetes API, typically `SparkApplication` from the Spark Operator.
+Luckily, the Kubernetes Python Client provides a utility method that acts as an input hub for any kind of object.
+
+```python
+from os import path
+
+import yaml
+
+from kubernetes import client, config
+
+
+def main():
+    config.load_kube_config()
+
+    with open(path.join(path.dirname(__file__), "nginx-deployment.yaml")) as f:
+        dep = yaml.safe_load(f)
+        k8s_client = ApiClient()
+        utils.create_from_dict(k8s_client, dep)
+        print("Deployment created. status='%s'" % resp.metadata.name)
+
+
+if __name__ == '__main__':
+    main()
+```
+
 
 
 
