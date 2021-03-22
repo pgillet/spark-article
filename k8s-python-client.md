@@ -374,7 +374,7 @@ from os import path
 
 import yaml
 
-from kubernetes import client, config
+from kubernetes import client, config, utils
 
 
 def main():
