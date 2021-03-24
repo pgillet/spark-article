@@ -285,7 +285,7 @@ def main():
     # Configs can be set in Configuration class directly or using helper
     # utility. If no argument provided, the config will be loaded from
     # default location.
-    config.load_kube_config()
+    config.load_kube_config("path/to/kubeconfig_file")
     apps_v1 = client.AppsV1Api()
 
     deployment = create_deployment_object()
@@ -345,7 +345,7 @@ from kubernetes import client, config
 
 
 def main():
-    config.load_kube_config()
+    config.load_kube_config("path/to/kubeconfig_file")
 
     with open(path.join(path.dirname(__file__), "nginx-deployment.yaml")) as f:
         dep = yaml.safe_load(f)
@@ -380,7 +380,7 @@ from kubernetes import client, config, utils
 
 
 def main():
-    config.load_kube_config()
+    config.load_kube_config("path/to/kubeconfig_file")
 
     with open(path.join(path.dirname(__file__), "nginx-deployment.yaml")) as f:
         dep = yaml.safe_load(f)
@@ -393,6 +393,7 @@ if __name__ == '__main__':
     main()
 ```
 
-`utils.create_from_dict` is the magic method here.
+`utils.create_from_dict` is the magic method here. It takes a `dict` holding valid kubernetes objects. It is a 
+blessing to have found it, because it is well hidden in the client and not documented at all.
 
 
