@@ -362,7 +362,8 @@ if __name__ == '__main__':
 This is the equivalent in Python of `kubectl create -f nginx-deployment.yaml`.
 
 As you can see, you must call `create_namespaced_deployment` to create a Deployment. In the same way, you would 
-call `create_namespaced_pod` to create a Pod, and so on. 
+call `create_namespaced_pod` to create a Pod, and so on. This is because the Python client is automatically 
+generated following the `OpenAPI` specifications of the Kubernetes API.
 
 It's a shame to have to call a specific method to create a particular type of object, even though the type of object 
 itself is already specified in the manifest that we load through this method. it's all the more a shame that this 
