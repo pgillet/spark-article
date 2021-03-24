@@ -118,10 +118,10 @@ spec:
 ```
 
 On the native Spark side, there is nothing in the doc that specifies how driver pods are ultimately deleted.  
-We could set up a simple Kubernetes [`CronJob`](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/)  
+We could set up a simple Kubernetes [`CronJob`](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/)
 that would run periodically to delete them automatically.
 
-At the time of writing this manual, there are pending requests in Kubernetes to support TTL in `Pods` like in  
+At the time of writing this article, there are pending requests in Kubernetes to support TTL in `Pods` like in  
 `Jobs`: _"TTL controller only handles Jobs for now, and may be expanded to handle other resources that will finish  
 execution, such as Pods and custom resources."_
 
