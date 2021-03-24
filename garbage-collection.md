@@ -130,3 +130,28 @@ When killing an application from the Python code, we delete the owner object usi
  deletion policy.
 In background cascading deletion, Kubernetes deletes the owner object immediately and the garbage collector then
  deletes the dependents in the background. This is useful so as not to delay the main execution thread.
+
+To delete a Spark job launched by `spark-submit`:
+
+```python
+from kubernetes import client
+
+
+core_v1_api = client.CoreV1Api()
+core_v1_api.delete_namespaced_pod("aname", "spark-jobs", propagation_policy="Background")
+```
+
+To delete a `SparkApplication`:
+
+```python
+from kubernetes import client, config
+
+custom_object_api = client.CustomObjectsApi()
+custom_object_api.delete_namespaced_custom_object(
+    group="sparkoperator.k8s.io",
+    version="v1beta2",
+    namespace="spark-jobs",
+    plural="sparkapplications",
+    name="app_name",
+    propagation_policy="Background")
+```
