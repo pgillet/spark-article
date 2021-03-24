@@ -28,5 +28,5 @@ docker run --rm spark-py:3.0.1 /opt/spark/bin/spark-submit --master local[2] /op
 
 # Recommendation
 
-It is strongly recommended to start from an official _base_ image to create any custom Spark image.
+It is strongly recommended starting from an official _base_ image to create any custom Spark image.
 

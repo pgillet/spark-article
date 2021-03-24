@@ -68,9 +68,9 @@ data:
 We use a template file in the `ConfigMap` to define the executor pod configuration. 
 [Templates](https://spark.apache.org/docs/latest/running-on-kubernetes.html#pod-template) are typically used for
  configuring Spark pods that cannot be configured otherwise, via Spark properties or environment variables
- . Thus, template files mostly contain fine-grained configuration related to deployment at the Kubernetes level: here
- , the node affinity and the priority class name.
+ . Thus, template files mostly contain fine-grained configuration related to deployment at the Kubernetes level: 
+here, the node affinity and the priority class name.
 
-To make the pod template file accessible to the spark-submit process, we must set the Spark property `spark.kubernetes
-.executor.podTemplateFile` with its local pathname in the driver pod. To do so, the file will be automatically
- mounted onto a volume in the driver pod when it’s created.
+To make the pod template file accessible to the spark-submit process, we must set the Spark property 
+`spark.kubernetes.executor.podTemplateFile` with its local pathname in the driver pod. To do so, the file will be 
+automatically mounted onto a volume in the driver pod when it’s created.
