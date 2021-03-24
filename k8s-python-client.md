@@ -305,8 +305,8 @@ This is great, but this involves mastering the client's API, and above all we mu
 _imperatively_: we specify the desired operation (create, replace, etc.) on Python objects that represent Kubernetes 
 objects. Here, we prefer to manage our objects in a _declarative_ way and operate on object configuration files (stored 
 locally along the Python code source) like we usually do with the `kubectl` command. Indeed, Python code should only 
-be a simple execution backend to trigger Kubernetes operations, and business logic, if any, should be concentrated 
-in manifest files.
+be a simple execution backend to trigger Kubernetes operations, and _business_ logic, so to speak, should be 
+concentrated in manifest files.
 
 The deployment we created above is the same as in the `nginx-deployment.yaml`:
 
