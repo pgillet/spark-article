@@ -1,8 +1,13 @@
-# My Journey With Spark On Kubernetes
+# My Journey With Spark On Kubernetes...In Python
 
-When it comes to run Spark on Kubernetes, you have two choices:
+I am talking about a time that the under 20s cannot know. Until not long ago, the way to go to run Spark on a 
+cluster was either with Spark's own standalone cluster manager, Mesos or YARN. In the meantime, the Kingdom of 
+Kubernetes has risen and spread widely.
+
+And when it comes to run Spark on Kubernetes, you have now two choices:
 
 - Use "native" Spark Kubernetes capabilities: Spark can run on clusters managed by Kubernetes since Spark 2.3.
-  Kubernetes support is still flagged as experimental but it is sufficiently mature to think about running production workloads.
+  Kubernetes support was still flagged as experimental until very recently, but as per SPARK-33005 Kubernetes GA 
+  Preparation, Spark on Kubernetes is now fully supported and production ready! 🎉
 
 - Use the Spark Operator, proposed and maintained by Google, which is still in beta version (and always will be)
