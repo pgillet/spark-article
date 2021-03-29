@@ -30,10 +30,10 @@ which acts as a client to the cluster. The driver pod must be created using the 
 
 # Who Does What?
 
-With "native" Spark, Spark applications are executed on Kubernetes in client mode, so as not to depend on a local
- Spark distribution.
+With "native" Spark, we will execute Spark applications in client mode, so as not to depend on a local Spark 
+distribution.
  
-With Spark Operator, a `SparkApplication` should set `.spec.deployMode` to cluster, as `client` is not currently
+With Spark Operator, a `SparkApplication` should set `.spec.deployMode` to `cluster`, as `client` is not currently
  implemented. The driver pod will then run `spark-submit` in client mode internally to run the driver program. The
  operator's controller thus embeds a Spark distribution which plays the role of Spark scheduler, but it is globally
   transparent for the end user.
