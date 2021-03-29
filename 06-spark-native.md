@@ -5,8 +5,11 @@ apiVersion: "sparkoperator.k8s.io/v1beta2"
 kind: SparkApplication
 metadata:
   name: pyspark-pi
-  namespace: default
+  namespace: spark-jobs
 spec:
+  batchScheduler: volcano
+  batchSchedulerOptions:
+    priorityClassName: routine
   type: Python
   pythonVersion: "2"
   mode: cluster
@@ -20,16 +23,33 @@ spec:
     onFailureRetryInterval: 10
     onSubmissionFailureRetries: 5
     onSubmissionFailureRetryInterval: 20
+  timeToLiveSeconds: 86400
   driver:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: type
+              operator: In
+              values: [driver]
     cores: 1
     coreLimit: "1200m"
     memory: "512m"
     labels:
       version: 3.0.0
-    serviceAccount: spark
+    serviceAccount: yippee-spark
   executor:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: type
+              operator: In
+              values: [compute]
     cores: 1
-    instances: 1
+    instances: 2
     memory: "512m"
     labels:
       version: 3.0.0
