@@ -69,11 +69,12 @@ files and takes care of all the needed plumbing for you: networking between the 
 collection, pod configuration, access to the driver UI. 
 
 In use, the operator is way much easier than `spark-submit`. But spark-submit is definitely not going away and is 
-still the Spark native way of launching applications. In the long term, for application submission, the operator 
-will not semantically nor functionally diverge from spark-submit and will always use it under the hood. More 
-importantly, the spark-submit script use all of Spark’s supported cluster managers through a uniform interface so 
-you don’t have to configure your application especially for each one (still, that shouldn't prevent the Apache 
-Spark project from developing its own operator in my opinion).
+still the Spark native way of launching applications. _In the long term, for application submission, the operator 
+will not semantically nor functionally diverge from spark-submit and will always use it under the hood_. More 
+importantly, _the spark-submit script use all of Spark’s supported cluster managers through a uniform interface so 
+you don’t have to configure your application especially for each one_ (see 
+[here](https://github.com/GoogleCloudPlatform/spark-on-k8s-operator/issues/225). Still, that shouldn't prevent the 
+Apache Spark project from developing its own operator in my opinion.
 
 Eventually, choosing between the Spark Operator and spark-submit is a matter of if you are more _Kubernetes_-centric 
 and you run Spark workloads among other types of workloads, or you do Spark first, and Kubernetes is just a mean to 
