@@ -1,8 +1,8 @@
 # Service Account for Driver Pods
 
-Remember, Spark applications run as independent sets of processes on a cluster, coordinated by the `SparkContext`
+**Remember, Spark applications run as independent sets of processes on a cluster, coordinated by the `SparkContext`
 object in your main program, called the `driver`. Once connected, the SparkContext acquires `executors` on nodes in the 
-cluster, which are the processes that run computations and store data for your application.
+cluster, which are the processes that run computations and store data for your application.**
 
 Thus, Spark driver pods need a Kubernetes service account in the pod's namespace that has permissions to create, get, 
 list, and delete executor pods. Below an example RBAC setup that creates a driver service account named `yippee-spark` in
