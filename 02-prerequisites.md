@@ -117,3 +117,7 @@ description: "Rush priority"
 ```bash
 kubectl create -f k8s/priorities.yaml
 ```
+
+Here, only the PriorityClass "rush" is allowed to preempt lower-priority pods. Pods with other priorities will be 
+placed in the scheduling queue ahead of lower-priority pods, but they cannot preempt other pods. They'll just have 
+to wait until sufficient resources are free to be scheduled.
