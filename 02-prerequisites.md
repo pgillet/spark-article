@@ -8,6 +8,7 @@ Thus, Spark driver pods need a Kubernetes service account in the pod's namespace
 list, and delete executor pods. Below an example RBAC setup that creates a driver service account named `yippee-spark` in
  the namespace `spark-jobs`, with a RBAC role binding giving the service account the needed permissions.
 
+`k8s/yippee-spark-rbac.yaml`
 ```yaml
 apiVersion: v1
 kind: ServiceAccount
@@ -78,7 +79,7 @@ In my project, we aim to run multiple Spark jobs simultaneously in parallel. But
   Pods to make scheduling of the pending Pod possible.
 To use priority and preemption capabilities, we must first create the necessary `PriorityClasses`:
 
-`priorities.yaml`
+`k8s/priorities.yaml`
 ```yaml
 ---
 apiVersion: scheduling.k8s.io/v1
