@@ -1,4 +1,6 @@
-Let's take a closer look at the Pi example from the Spark Operator. A single yaml file is needed:
+Let's take a closer look at the 
+[Pi example](https://github.com/GoogleCloudPlatform/spark-on-k8s-operator/blob/master/examples/spark-py-pi.yaml) 
+from the Spark Operator. A single yaml file is needed, adapted to our configuration:
 
 ```yaml
 apiVersion: "sparkoperator.k8s.io/v1beta2"
@@ -79,5 +81,3 @@ allocate resources on a cluster.
 
 In the rest of this article, we will see how the magic of the Spark operator operates, by reproducing all of its 
 internals with spark-submit.
-
-
