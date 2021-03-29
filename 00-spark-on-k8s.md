@@ -1,4 +1,4 @@
-# My Journey With Spark On Kubernetes...In Python
+# My Journey With Spark On Kubernetes... In Python
 
 I am talking about a time that the under 20s cannot know. Until not long ago, the way to go to run Spark on a 
 cluster was either with Spark's own standalone cluster manager, Mesos or YARN. In the meantime, the Kingdom of 
