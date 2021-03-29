@@ -1,7 +1,11 @@
 # Service Account for Driver Pods
 
-Spark driver pods need a Kubernetes service account in the pod's namespace that has permissions to create, get, list
-, and delete executor pods. Below an example RBAC setup that creates a driver service account named `yippee-spark` in
+Remember, Spark applications run as independent sets of processes on a cluster, coordinated by the `SparkContext`
+object in your main program, called the `driver`. Once connected, Spark acquires `executors` on nodes in the cluster,
+which are processes that run computations and store data for your application.
+
+Thus, Spark driver pods need a Kubernetes service account in the pod's namespace that has permissions to create, get, 
+list, and delete executor pods. Below an example RBAC setup that creates a driver service account named `yippee-spark` in
  the namespace `spark-jobs`, with a RBAC role binding giving the service account the needed permissions.
 
 ```yaml
