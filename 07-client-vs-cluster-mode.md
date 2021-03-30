@@ -22,21 +22,21 @@ specifying `--master k8s://http://127.0.0.1:8001` as an argument to `spark-submi
 
 In _client mode_, the `spark-submit` command is directly passed with its arguments to the Spark container in the driver 
 pod. With the `deploy-mode` option set to `client`, the driver is launched directly within the `spark-submit` process 
-which acts as a client to the cluster. The driver pod must be created using the data in 
-[spark-driver-pod.yaml](../spark_client/kubernetes/k8s/spark-native/spark-driver-pod.yaml). The input and output of the
- application are attached to the logs from the pod.
+which acts as a client to the cluster. The input and output of the application are attached to the logs from the pod.
 
 ![k8s client mode](./images/k8s-client-mode.png)
 
 # Who Does What?
 
 With "native" Spark, we will execute Spark applications in client mode, so as not to depend on a local Spark 
-distribution.
+distribution. Specifically, the user creates a driver pod resource with `kubectl`, and the driver pod will 
+then run `spark-submit` in client mode internally to run the driver program.
  
 With Spark Operator, a `SparkApplication` should set `.spec.deployMode` to `cluster`, as `client` is not currently
- implemented. The driver pod will then run `spark-submit` in client mode internally to run the driver program. The
- operator's controller thus embeds a Spark distribution which plays the role of Spark scheduler, but it is globally
-  transparent for the end user.
+ implemented. Behind the scenes, the behavior is exactly the same as with native Spark: the operator's controller 
+thus embeds a Spark distribution which plays the role of Spark scheduler; driver pods are spawned from the 
+controller... and then run `spark-submit` in client mode internally to run the driver program. But this is globally 
+transparent for the end user.
   
 ![k8s client mode](./images/spark-operator-architecture-diagram.png)
  
