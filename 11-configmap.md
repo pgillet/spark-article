@@ -10,9 +10,8 @@ metadata:
   labels:
     app-name: spark-${PRIORITY_CLASS_NAME}${NAME_SUFFIX}
   name: spark-${PRIORITY_CLASS_NAME}${NAME_SUFFIX}-cm
-  namespace: spark-jobs
+  namespace: ${NAMESPACE}
 data:
-  PYTHON_MAIN: https://storage.googleapis.com/yippee-spark-k8s-bucket/long_running_pi.py
   # Comma-separated list of .zip, .egg, or .py files dependencies for Python apps.
   # spark.submit.pyFiles can be used instead in spark-defaults.conf below.
   # PYTHONPATH: ...
