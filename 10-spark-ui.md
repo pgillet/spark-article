@@ -92,8 +92,8 @@ Note that curly braces must be escaped.
 
 # Future Work
 
-The Spark Operator Ingress could not be enabled during the development, as a DNS name is required. Instead, the same
- Ingress as for native Spark is "grafted" to the `SparkApplication`, with path-based routing.
+The Spark Operator Ingress could not be enabled during my experiments, simply because a DNS name is required. Instead, 
+the same Ingress as for native Spark is "grafted" to the `SparkApplication`, with path-based routing.
  
 The operation proposed by the Spark Operator, with routing based on hostname wildcards (for example 
 `*.ingress.cluster.com`), is nevertheless interesting as it would overcome the problem of HTTP redirect described
@@ -102,5 +102,6 @@ The operation proposed by the Spark Operator, with routing based on hostname wil
 With hostname wildcards, and therefore without the HTTP redirect, the UI service could be switched to `NodePort` 
 type (a NodePort service exposes the Service on each Node's IP at a static port) and still be compatible with the 
 Ingress.
-The UI would thus be accessible through both the Ingress with its external URL configured, and the `NodePort` 
-service at `http://<node-ip>:<service-port>`. A service of type `NodePort` is still relevant in a private cloud.
+The UI would thus be accessible outside the cluster through both the Ingress with its external URL configured, and the 
+`NodePort` service at `http://<node-ip>:<service-port>`. A service of type `NodePort` is still relevant in a private 
+cloud.
