@@ -1,8 +1,3 @@
-# Ingress Controller
-
-Install [Traefik](https://doc.traefik.io/traefik/providers/kubernetes-ingress/) or 
-[Nginx](https://kubernetes.github.io/ingress-nginx/) as Ingress Controller for your Kubernetes cluster.
-
 # Ingress
 
 The Spark UI is accessible by creating a service of type `ClusterIP` which exposes the UI from the driver pod:
@@ -28,7 +23,13 @@ spec:
   type: ClusterIP
 ```
 
-This is only accessible from within the cluster. We must then create an Ingress to expose the UI outside the cluster:
+With this service alone, the UI is only accessible from inside the cluster. We must then create an `Ingress` to expose 
+the UI outside the cluster. In order for the Ingress resource to work, the cluster must have an ingress controller 
+running. You can choose the 
+[ingress controller implementation](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) 
+that best fits your cluster. 
+[Traefik](https://doc.traefik.io/traefik/providers/kubernetes-ingress/) and [Nginx](https://kubernetes.github.
+io/ingress-nginx/) are very popular choices. The ingress below is configured for Nginx: 
 
 `spark-ui-ingress.yaml`
 ```yaml
@@ -99,5 +100,5 @@ The operation proposed by the Spark Operator, with routing based on hostname wil
  
 With hostname wildcards, and therefore without the HTTP redirect, the UI service could be switched (back) to `NodePort` 
 type and still be compatible with the Ingress.
-The UI would thus be accessible through both the Ingress and the `NodePort` service at 
-`http://<node-ip>:<service-port>`. A service of `NodePort` type is still relevant in a private cloud.
+The UI would thus be accessible through both the Ingress with its external URL configured, and the `NodePort` 
+service at `http://<node-ip>:<service-port>`. A service of `NodePort` type is still relevant in a private cloud.
