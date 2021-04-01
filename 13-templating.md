@@ -23,78 +23,9 @@ Instead, we are going to substitute references to variables of the form `$VAR` o
  values, exactly like [envsubst](https://www.gnu.org/software/gettext/manual/html_node/envsubst-Invocation.html), but
   programmatically.
 
-Let's get back to Spark. The yaml below defines a driver pod (in native Spark) that runs the Pi example program. As you 
-can see, we have placeholders to specify the `namespace`, the `priorityClassName`, the `serviceAccountName`, the 
-`nodeAffinity` and a `NAME_SUFFIX` to make the pod's name unique.
-
-```yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  labels:
-    app-name: pyspark-pi-${PRIORITY_CLASS_NAME}${NAME_SUFFIX}
-    spark-role: driver
-  name: pyspark-pi-${PRIORITY_CLASS_NAME}${NAME_SUFFIX}-driver
-  namespace: ${NAMESPACE}
-spec:
-  containers:
-  - name: pyspark-pi
-    image: eu.gcr.io/yippee-spark-k8s/spark-py:3.0.1
-    imagePullPolicy: IfNotPresent
-    ports:
-    - containerPort: 5678
-      name: headless-svc
-    - containerPort: 4040
-      name: web-ui
-    resources:
-      requests:
-        memory: 512Mi
-        cpu: 1
-      limits:
-        cpu: 1200m
-    env:
-    # Overriding configuration directory
-    - name: SPARK_CONF_DIR
-      value: /spark-conf
-    - name: SPARK_HOME
-      value: /opt/spark
-    # Configure all key-value pairs in ConfigMap as container environment variables
-    envFrom:
-      - configMapRef:
-          name: pyspark-pi-${PRIORITY_CLASS_NAME}${NAME_SUFFIX}-cm
-    args:
-    - $(SPARK_HOME)/bin/spark-submit
-    - /opt/spark/examples/src/main/python/pi.py
-    - "10"
-    volumeMounts:
-      - name: spark-config
-        mountPath: /spark-conf
-        readOnly: true
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-          - matchExpressions:
-            - key: type
-              operator: In
-              values: [${DRIVER_NODE_AFFINITIES}]
-  priorityClassName: ${PRIORITY_CLASS_NAME}
-  restartPolicy: OnFailure
-  schedulerName: volcano
-  serviceAccountName: ${SERVICE_ACCOUNT_NAME}
-  volumes:
-    # Add the executor pod template in read-only volume, for the driver to read
-    - name: spark-config
-      configMap:
-        name: pyspark-pi-${PRIORITY_CLASS_NAME}${NAME_SUFFIX}-cm
-        items:
-        - key: spark-defaults.conf
-          path: spark-defaults.conf
-        - key: spark-env.sh
-          path: spark-env.sh
-        - key: executor-pod-template.yaml
-          path: executor-pod-template.yaml
-```
+Let's get back to Spark (native). We saw earlier the yaml file that defines a driver pod to run the Pi example 
+program. As you can see, we have placeholders to specify the `namespace`, the `priorityClassName`, the 
+`serviceAccountName`, the `nodeAffinity` and a `NAME_SUFFIX` to make the pod's name unique.
 
 Now, in the Python code, we replace at runtime these variables with the desired values before creating the pod:
 

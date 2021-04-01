@@ -18,6 +18,8 @@ spec:
   image: "gcr.io/spark-operator/spark-py:v3.0.0"
   imagePullPolicy: Always
   mainApplicationFile: local:///opt/spark/examples/src/main/python/pi.py
+  arguments:
+  - "10"
   sparkVersion: "3.0.0"
   restartPolicy:
     type: OnFailure
