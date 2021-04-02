@@ -1,8 +1,7 @@
-In client mode, the driver runs inside a pod.
-
 # Client Mode Networking
 
-Spark executors must be able to connect to the Spark driver by the means of Kubernetes networking. To do that, we use
+In client mode, the driver runs inside a pod. Spark executors must be able to connect to the Spark driver by the 
+means of Kubernetes networking. To do that, we use
  a [headless](https://kubernetes.io/docs/concepts/services-networking/service/#headless-services) service to allow
   the driver pod to be routable from the executors by a stable hostname. When deploying the headless service, we
   ensure that the service will only match the driver pod and no other pods by assigning the driver pod a
