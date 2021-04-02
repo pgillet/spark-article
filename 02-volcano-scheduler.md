@@ -66,6 +66,6 @@ For your workload to be scheduled by Volcano, you just need to set `schedulerNam
  `batchScheduler: volcano` in the `SparkApplication`'s `spec` if you use the Spark Operator). By default, the
   workload is scheduled with the default `kube-scheduler`.
 
-**To be consistent, ensure that the same scheduler is used for driver and executor pods.**
+**To be consistent, we will ensure that the same scheduler is used for driver and executor pods.**
 
 
