@@ -6,7 +6,7 @@ a Spark application from Python code.
 ## Getting the status of a Spark application
 
 Many operations in the Kubernetes Python client can be _watched_, that means that our program can call a method of the
-Python API periodically. We get the status as follows:
+Python API periodically until you get the desired result or the watch expires. We get the status as follows:
 
 ```python
 from kubernetes import client, watch
