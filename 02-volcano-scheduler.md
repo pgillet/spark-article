@@ -3,7 +3,7 @@ Kubernetes, well-suited for scheduling Spark applications pods with a better eff
 [kube-scheduler](https://kubernetes.io/docs/concepts/scheduling-eviction/kube-scheduler/).
 The main reason is that Volcano allows **"group scheduling"** or **"gang scheduling"**: while the default scheduler of 
 Kubernetes schedules containers one by one, Volcano ensures that a _gang_ of related containers (here, the Spark driver 
-and its executors) can be scheduled at the same time. If for any reason it is not possible to deploy all of the 
+and its executors) can be scheduled at the same time. If for any reason it is not possible to deploy all the 
 containers in a gang, Volcano will not schedule that gang. 
 This [article](https://www.cncf.io/blog/2021/02/10/three-reasons-why-you-need-volcano/) explains in more detail the 
 reasons for using Volcano.

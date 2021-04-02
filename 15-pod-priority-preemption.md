@@ -6,9 +6,12 @@ The priority is propagated to driver and executor pods, whether with native spar
 
 # How to know which pods have been preempted
 
+You can retrieve high-level information on what is happening in the cluster. To list all events in the namespace 
+`spark-jobs` you can use:
+
 ```bash
 # List Events sorted by timestamp
-kubectl get events --sort-by=.metadata.creationTimestamp
+kubectl get events --sort-by=.metadata.creationTimestamp --namespace=spark-jobs
 ```
 
 <pre>
