@@ -8,7 +8,7 @@ These properties will not be applied if passed directly to `.spec.sparkConf` in 
 
 **Example:**
 Setting `spark.executor.instances` in `.spec.sparkConf` will not affect the number of executors. Instead, we have to
- set the field `.spec.executor.instances` in the `SparkApplication` yaml file.
+ set the field `.spec.executor.instances` in the `SparkApplication` YAML file.
 
 It would be nice if we could set/override such properties in `.spec.sparkConf`. Thus, we could easily "templatize" a
  SparkApplication and set runtime parameters with Spark semantics. In other terms, we should be able to move the

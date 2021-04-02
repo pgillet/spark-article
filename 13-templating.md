@@ -1,5 +1,5 @@
 There is an even more direct method `utils.create_from_yaml`, which reads Kubernetes objects from a yaml file.
-But we cannot use it, as we need to "parameterize" our yaml files before submitting them to the Kubernetes Python 
+But we cannot use it, as we need to "parameterize" our YAML files before submitting them to the Kubernetes Python 
 client.
 
 # Templating
@@ -23,7 +23,7 @@ Instead, we are going to substitute references to variables of the form `$VAR` o
  values, exactly like [envsubst](https://www.gnu.org/software/gettext/manual/html_node/envsubst-Invocation.html), but
   programmatically.
 
-Let's get back to Spark (native). We saw earlier the yaml file that defines a driver pod to run the Pi example 
+Let's get back to Spark (native). We saw earlier the YAML file that defines a driver pod to run the Pi example 
 program. As you can see, we have placeholders to specify the `namespace`, the `priorityClassName`, the 
 `serviceAccountName`, the `nodeAffinity` and a `NAME_SUFFIX` to make the pod's name unique.
 
@@ -86,7 +86,7 @@ in the Spark container (including the template for the executor pods). We also h
 executors to communicate back with the driver. And finally, we have another `Service`, backed by an `Ingress`, to 
 expose the Spark UI.
 
-We just iterate over the yaml files that define these resources and just call the same method `utils.create_from_dict`:
+We just iterate over the YAML files that define these resources and just call the same method `utils.create_from_dict`:
 
 ```python
     # List all YAML files in k8s/spark-native directory, except the driver pod definition file
