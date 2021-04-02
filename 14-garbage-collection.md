@@ -138,7 +138,7 @@ from kubernetes import client
 
 
 core_v1_api = client.CoreV1Api()
-core_v1_api.delete_namespaced_pod("aname", "spark-jobs", propagation_policy="Background")
+core_v1_api.delete_namespaced_pod("driver-pod-name", "spark-jobs", propagation_policy="Background")
 ```
 
 To delete a `SparkApplication`:
