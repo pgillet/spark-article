@@ -1,4 +1,5 @@
-This guide explains how to build an "official" Spark Docker image and how to run a basic Spark application with it.
+To run Spark applications on Kubernetes ... ehh ... You need a Docker image that embeds a Spark distribution.
+This section explains how to build an "official" Spark Docker image and how to run a basic Spark application with it.
 
 # Spark Docker image
 
