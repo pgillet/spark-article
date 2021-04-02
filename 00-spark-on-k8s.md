@@ -9,7 +9,7 @@ And when it comes to run Spark on Kubernetes, you have now two choices:
 - Use "native" Spark's Kubernetes capabilities: Spark can run on clusters managed by Kubernetes since Spark 2.3.
   Kubernetes support was still flagged as experimental until very recently, but as per 
   [SPARK-33005 Kubernetes GA Preparation](https://issues.apache.org/jira/browse/SPARK-33005), Spark on Kubernetes is 
-  now fully supported and production ready! 🎉
+  now fully supported and production ready! :confetti_ball:
 
 - Use the Spark Operator, proposed and maintained by Google, which is still in beta version (and always will be).
 
