@@ -70,8 +70,36 @@ def main():
     pprint(k8s_object_dict)
     k8s_objects = utils.create_from_dict(k8s_client, k8s_object_dict, verbose=verbose)
 
+    # TODO: create the other resources
+    
     print("Submitted %s" % (k8s_objects[0].metadata.labels["app-name"]))
 
 if __name__ == "__main__":
     main()
 ```
+
+# Putting the pieces together
+
+We have now the general mechanics and we can create all the resources needed.
+Remember, the driver pod consumes a `ConfigMap` to define environment variables and to mount configuration files 
+in the Spark container (including the template for the executor pods). We also have a `Service` that allows 
+executors to communicate back with the driver. And finally, we have another `Service`, backed by an `Ingress`, to 
+expose the Spark UI.
+
+We just iterate over the yaml files that define these resources and just call the same method `utils.create_from_dict`:
+
+```python
+    # List all YAML files in k8s/spark-native directory, except the driver pod definition file
+    other_resources = listdir(k8s_dir)
+    other_resources.remove("pyspark-pi-driver-pod.yaml")
+    for f in other_resources:
+        k8s_object_dict = create_k8s_object(os.path.join(k8s_dir, f), env_subst)
+        pprint(k8s_object_dict)
+        utils.create_from_dict(k8s_client, k8s_object_dict, verbose=verbose)
+
+    print("Submitted %s" % (k8s_objects[0].metadata.labels["app-name"]))
+```
+
+Now that we've launched a _full_ Spark application, let's see what happens when we kill it :smiling_imp: or when the 
+application 
+completes normally.
