@@ -67,7 +67,6 @@ To run the Spark Pi example provided within the operator, run the following comm
 kubectl apply -f examples/spark-py-pi.yaml
 ```
 
-According to our [configuration](../docs/gke.md#service-account-for-driver-pods), `.metadata.namespace` must be set to 
-"spark-jobs" and  `.spec.driver.serviceAccount` is set to the name of the service account "yippee-spark" previously 
-created.
+According to our configuration, `.metadata.namespace` must be set to "spark-jobs" and  `.spec.driver.serviceAccount` 
+is set to the name of the service account "yippee-spark" previously created.
 
