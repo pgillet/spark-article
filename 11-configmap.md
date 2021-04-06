@@ -73,3 +73,19 @@ here, the node affinity and the priority class name.
 To make the pod template file accessible to the spark-submit process, we must set the Spark property 
 `spark.kubernetes.executor.podTemplateFile` with its local pathname in the driver pod. To do so, the file will be 
 automatically mounted onto a volume in the driver pod when it’s created.
+
+# Object Names and Labels
+
+We use the `app-name` label to semantically group all the Kubernetes resources related to a single Spark application.
+In our case, this label provides uniqueness, and we do not expect multiple Spark applications to carry the same value 
+for this label (at least in the _name_space-time considered).
+
+For a given Spark application, all the object names are then derived from the `app-name`. We simply add a suffix which 
+also qualifies the type of the object: `-driver` for the driver pod, `-driver-svc` for the driver service, `-ui-svc` 
+for the Spark UI service, `-ui-ingress` for the Spark UI ingress, and `-cm` for the ConfigMap.
+
+We also set the label `spark-role` at the pod level to differentiate the drivers from their executors.
+
+This naming and labeling is consistent with the Spark operator. As a result, Spark applications can be treated and 
+filtered in the same way, whether they are triggered by the Spark operator or by spark-submit. :thumbsup:
+
