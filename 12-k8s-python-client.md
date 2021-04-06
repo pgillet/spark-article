@@ -370,7 +370,8 @@ itself is already specified in the manifest that we load through this method. Th
 [custom resources](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/), that 
 means object types that are not part of the core Kubernetes API, typically `SparkApplication` from the Spark Operator.
 Indeed, you can pass a custom resource as a `Dict` to the `create_namespaced_custom_object` function, but you still 
-need to requalify the object type in the other required arguments.
+need to requalify the object type in the other required arguments (see this 
+[example](https://github.com/kubernetes-client/python/blob/master/examples/custom_object.py)).
 
 Luckily, the Kubernetes Python Client provides a utility method that acts as an input hub for any kind of object.
 
