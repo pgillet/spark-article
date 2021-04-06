@@ -78,7 +78,7 @@ automatically mounted onto a volume in the driver pod when it’s created.
 
 We use the `app-name` label to semantically group all the Kubernetes resources related to a single Spark application.
 In our case, this label provides uniqueness, and we do not expect multiple Spark applications to carry the same value 
-for this label (at least in the _name_space-time considered).
+for this label (at least in the _namespace-time_ considered).
 
 For a given Spark application, all the object names are then derived from the `app-name`. We simply add a suffix which 
 also qualifies the type of the object: `-driver` for the driver pod, `-driver-svc` for the driver service, `-ui-svc` 
