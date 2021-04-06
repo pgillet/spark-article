@@ -366,10 +366,12 @@ call `create_namespaced_pod` to create a Pod, and so on. This is because the Pyt
 generated following the `OpenAPI` specifications of the Kubernetes API.
 
 It's a shame to have to call a specific method to create a particular type of object, even though the type of object 
-itself is already specified in the manifest that we load through this method. it's all the more a shame that this 
-system cannot support 
+itself is already specified in the manifest that we load through this method. This is also true for 
 [custom resources](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/), that 
 means object types that are not part of the core Kubernetes API, typically `SparkApplication` from the Spark Operator.
+Indeed, you can pass a custom resource as a `Dict` to the `create_namespaced_custom_object` function, but you still 
+need to requalify the object type in the other required arguments.
+
 Luckily, the Kubernetes Python Client provides a utility method that acts as an input hub for any kind of object.
 
 ```python
@@ -394,7 +396,7 @@ if __name__ == '__main__':
     main()
 ```
 
-`utils.create_from_dict` is the magic method here. It takes a `dict` holding valid kubernetes objects. It is a 
+`utils.create_from_dict` is the magic method here. It only takes a `dict` holding valid kubernetes objects. It is a 
 blessing to have found it, because it is well hidden in the client and not documented at all.
 
 
