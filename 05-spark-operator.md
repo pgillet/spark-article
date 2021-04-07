@@ -1,8 +1,10 @@
-# Configuring and installing the Kubernetes Operator for Apache Spark
+# Spark Operator
+
+## Configuring and installing the Kubernetes Operator for Apache Spark
 
 In this section, you use [Helm](https://github.com/kubernetes/helm) to deploy the [Kubernetes Operator for Apache Spark](https://github.com/GoogleCloudPlatform/spark-on-k8s-operator) from the incubator [Chart](https://github.com/helm/charts/tree/master/incubator/sparkoperator) repository. Helm is a package manager you can use to configure and deploy Kubernetes apps.
 
-## Install Helm
+### Install Helm
 
 1. Downlad and install the `Helm` binary:
 
@@ -29,7 +31,7 @@ If Helm is correctly installed, you should see the following output:
 version.BuildInfo{Version:"v3.3.4", GitCommit:"a61ce5633af99708171414353ed49547cf05013d", GitTreeState:"clean", GoVersion:"go1.14.9"}
 ```
 
-## Install the chart
+### Install the chart
 
 ```bash
 helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator
@@ -47,7 +49,7 @@ Now you should see the operator running in the cluster by checking the status of
 ./helm status spark-operator --namespace spark-operator
 ```
 
-## About the Spark Job Namespace and the Service Account for Driver Pods
+### About the Spark Job Namespace and the Service Account for Driver Pods
 
 We did not set a specific value for the Helm chart property `sparkJobNamespace` when installing the operator, that means 
 the Spark Operator supports deploying `SparkApplications` to all namespaces.
@@ -59,7 +61,7 @@ pods.
 
 See [About the Spark Job Namespace](https://github.com/GoogleCloudPlatform/spark-on-k8s-operator/blob/master/docs/quick-start-guide.md#about-the-spark-job-namespace) and [About the Service Account for Driver Pods](https://github.com/GoogleCloudPlatform/spark-on-k8s-operator/blob/master/docs/quick-start-guide.md#about-the-service-account-for-driver-pods) sections for more details.
 
-# Running the Examples
+## Running the Examples
 
 To run the Spark Pi example provided within the operator, run the following command:
 

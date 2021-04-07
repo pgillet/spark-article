@@ -1,3 +1,5 @@
+# Volcano Scheduler
+
 For our experiments, we will use [Volcano](https://github.com/volcano-sh/volcano) which is a batch scheduler for 
 Kubernetes, well-suited for scheduling Spark applications pods with a better efficiency than the default 
 [kube-scheduler](https://kubernetes.io/docs/concepts/scheduling-eviction/kube-scheduler/).
@@ -8,7 +10,7 @@ containers in a gang, Volcano will not schedule that gang.
 This [article](https://www.cncf.io/blog/2021/02/10/three-reasons-why-you-need-volcano/) explains in more detail the 
 reasons for using Volcano.
 
-# Install Volcano
+## Install Volcano
 
 Install Volcano on the cluster:
 
@@ -16,7 +18,7 @@ Install Volcano on the cluster:
 kubectl apply -f https://raw.githubusercontent.com/volcano-sh/volcano/master/installer/volcano-development.yaml
 ```
 
-# Enable job preemption
+## Enable job preemption
 
 The preempt action is responsible for preemptive scheduling of high priority tasks in the same queue according to 
 priority rules.
@@ -60,7 +62,7 @@ Note that job preemption in Volcano relies on the priority plugin that compares 
 two jobs, it decides whose priority is higher by comparing `job.spec.priorityClassName`. For two tasks, it decides whose 
 priority is higher by comparing `task.priorityClassName`, `task.createTime`, and `task.id` in order.
 
-# Enable Volcano scheduling in your workload
+## Enable Volcano scheduling in your workload
 
 For your workload to be scheduled by Volcano, you just need to set `schedulerName: volcano` in your pod's `spec` (or
  `batchScheduler: volcano` in the `SparkApplication`'s `spec` if you use the Spark Operator). By default, the

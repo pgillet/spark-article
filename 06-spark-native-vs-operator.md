@@ -1,3 +1,5 @@
+# Spark-submit vs Spark Operator
+
 Let's take a closer look at the 
 [Pi example](https://github.com/GoogleCloudPlatform/spark-on-k8s-operator/blob/master/examples/spark-py-pi.yaml) 
 from the Spark Operator. A single YAML file is needed, adapted to our configuration: `.metadata.namespace` must be 

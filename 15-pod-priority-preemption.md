@@ -1,10 +1,12 @@
+# Pod priority & preemption
+
 Whether it is Volcano or the default `kube-scheduler`, job preemption relies on job priorities. For two jobs, the 
 scheduler decides whose priority is higher by comparing `.spec.priorityClassName` (then `createTime`).
 
 The priority is propagated to driver and executor pods, whether with native spark-submit or with Spark Operator, and
  regardless of the node affinities.
 
-# How to know which pods have been preempted
+## How to know which pods have been preempted
 
 You can retrieve high-level information on what is happening in the cluster. To list all events in the namespace 
 `spark-jobs` you can use:
@@ -54,7 +56,7 @@ LAST SEEN   TYPE      REASON             OBJECT                                 
 In the output above, we can see that the pod `pyspark-pi-driver-routine-bf20cae50b6a8253` has been "evicted because of 
 preempt".
 
-# Future work
+## Future work
 
 Kubernetes provides containers with lifecycle hooks. The hooks enable containers to be aware of events in their
  management lifecycle and run code implemented in a handler when the corresponding lifecycle hook is executed.

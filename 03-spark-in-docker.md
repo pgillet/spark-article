@@ -1,7 +1,9 @@
+# Spark In Docker
+
 To run Spark applications on Kubernetes ... ehh ... You need a Docker image that embeds a Spark distribution.
 This section explains how to build an "official" Spark Docker image and how to run a basic Spark application with it.
 
-# Spark Docker image
+## Spark Docker image
 
 Spark (starting with version 2.3) ships with Dockerfiles that can be used to build different Spark Docker images (and 
 customize them to match an individual application’s needs) to use with a Kubernetes backend. They can be found in the 
@@ -18,7 +20,7 @@ Example usage to build an image with the Python binding (PySpark):
 
 This will create a local Docker image named `spark-py:<tag>`. You can set the `<tag>` with the Spark's actual version. 
 
-# Running the Examples
+## Running the Examples
 
 Once the image is bundled, you can launch a Spark application using the `bin/spark-submit` script.
 
@@ -27,7 +29,7 @@ Once the image is bundled, you can launch a Spark application using the `bin/spa
 docker run --rm spark-py:3.0.1 /opt/spark/bin/spark-submit --master local[2] /opt/spark/examples/src/main/python/pi.py
 ```
 
-# Recommendation
+## Recommendation
 
 It is strongly recommended starting from an official _base_ image to create any custom Spark image.
 

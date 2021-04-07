@@ -1,4 +1,6 @@
-# Spark-submit in cluster mode
+# Client vs Cluster Mode
+
+## Spark-submit in cluster mode
 
 In _cluster mode_, your application is submitted from a machine far from the worker machines (e.g. locally on your 
 laptop). You need a Spark distribution installed on this machine to be able to actually run the `spark-submit` script. 
@@ -18,7 +20,7 @@ kubectl proxy &
 If the local proxy is running at localhost:8001, the remote Kubernetes cluster can be reached by `spark-submit` by 
 specifying `--master k8s://http://127.0.0.1:8001` as an argument to `spark-submit`.
 
-# Spark-submit in client mode
+## Spark-submit in client mode
 
 In _client mode_, the `spark-submit` command is directly passed with its arguments to the Spark container in the driver 
 pod. With the `deploy-mode` option set to `client`, the driver is launched directly within the `spark-submit` process 
@@ -26,7 +28,7 @@ which acts as a client to the cluster. The input and output of the application a
 
 ![k8s client mode](./images/k8s-client-mode.png)
 
-# Who Does What?
+## Who Does What?
 
 With "native" Spark, we will execute Spark applications in client mode, so as not to depend on a local Spark 
 distribution. Specifically, the user creates a driver pod resource with `kubectl`, and the driver pod will 

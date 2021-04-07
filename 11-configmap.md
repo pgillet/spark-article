@@ -1,4 +1,4 @@
-# ConfigMap
+# Spark Configuration
 
 We use a [ConfigMap](https://kubernetes.io/docs/concepts/configuration/configmap/) for setting Spark configuration
  data separately from the driver pod definition.

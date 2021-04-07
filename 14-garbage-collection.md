@@ -1,4 +1,6 @@
-# Killed applications
+# Garbage collection
+
+## Killed applications
 The role of the Kubernetes garbage collector is to delete certain objects that once had an owner, but no longer have 
 one. The goal is to make sure that the garbage collector properly deletes resources that are no longer needed when
  killing a Spark application.
@@ -100,7 +102,7 @@ if __name__ == "__main__":
     main()
 ```
 
-# Applications normally completed
+## Applications normally completed
 When an application completes normally, the executor pods terminate and are cleaned up, but the driver pod persists
  logs and remains in "completed" state in the Kubernetes API "until it's eventually garbage collected or cleaned up
  manually".
@@ -125,7 +127,7 @@ At the time of writing this article, there are pending requests in Kubernetes to
 `Jobs`: _"TTL controller only handles Jobs for now, and may be expanded to handle other resources that will finish  
 execution, such as Pods and custom resources."_
 
-# Background cascading deletion
+## Background cascading deletion
 When killing an application from the Python code, we delete the owner object using the *Background* cascading
  deletion policy.
 In background cascading deletion, Kubernetes deletes the owner object immediately and the garbage collector then

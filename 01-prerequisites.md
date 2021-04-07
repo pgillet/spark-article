@@ -1,4 +1,6 @@
-# Service Account for Driver Pods
+# Prerequisites
+
+## Service Account for Driver Pods
 
 **Remember, Spark applications run as independent sets of processes on a cluster, coordinated by the `SparkContext`
 object in your main program, called the `driver`. Once connected, the SparkContext acquires `executors` on nodes in the 
@@ -49,7 +51,7 @@ kubectl create namespace spark-jobs
 kubectl create -f k8s/yippee-spark-rbac.yaml
 ```
 
-# Node Affinity
+## Node Affinity
 
 By default, the scheduler automatically places pods on nodes by ensuring nodes have sufficient free resources
 , distributing pods evenly across nodes, etc.
@@ -72,7 +74,7 @@ For executor pods:
 kubectl label nodes <node-name> type=compute
 ```
 
-# Pod Priority and Preemption
+## Pod Priority and Preemption
 
 In my project, we aim to run multiple Spark jobs simultaneously in parallel. But some workloads have higher priority
  than others. If a job cannot be scheduled, the scheduler (here, Volcano) tries to preempt (evict) lower priority

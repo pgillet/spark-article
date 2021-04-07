@@ -31,7 +31,7 @@ spec:
   type: ClusterIP
 ```
 
-# Executor Pod Garbage Collection
+## Executor Pod Garbage Collection
 
 We must also set `spark.kubernetes.driver.pod.name` for the executors to the name of the driver pod. When this
  property is set, the Spark scheduler will deploy the executor pods with an `ownerReference`, which in turn will

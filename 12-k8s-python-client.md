@@ -1,3 +1,5 @@
+# Kubernetes Python Client
+
 We need to operate Kubernetes as part of a Python client application. So, we need to interact with the Kubernetes
  REST API. Luckily we do not need to implement the API calls and manage HTTP requests/responses ourselves: we
   can rely on the [Kubernetes Python client](https://github.com/kubernetes-client/python), among other 
@@ -6,7 +8,7 @@ Haskell (there are also a lot of community-maintained client libraries for many 
 
 When using the Kubernetes Python Client library, we must first load authentication and cluster information.
 
-# Load Authentication And Cluster Information
+## Load Authentication And Cluster Information
 
 First, you need to setup the required service account and roles.
 
@@ -82,7 +84,7 @@ This command creates a new service account named `python-client-sa`, a new role 
 Client in our application. Do not confuse this service account with the `yippee-spark` service account for 
 driver pods.
 
-## The Easy Way
+### The Easy Way
 
 In this method, we can use an helper utility to load authentication and cluster information from a `kubeconfig` file and
  store them in `kubernetes.client.configuration`.
@@ -149,9 +151,9 @@ The `kubeconfig` file thus created configures access to the cluster for the `pyt
  only the rights needed for our client application and in the single namespace `spark-jobs` (_"principle of least
   privilege"_).
 
-## The Hard Way
+### The Hard Way
 
-### Fetch credentials
+#### Fetch credentials
 
 Here, we're going to configure the Python client in the most programmatic way possible.  
 First, we need to fetch the credentials to access the Kubernetes cluster. We’ll store these in Python environmental
@@ -168,7 +170,7 @@ Note that environment variables are captured the first time the `os` module is i
 startup. Changes to the environment made after this time are not reflected in `os.environ` (except for changes made by 
 modifying os.environ directly).
 
-### Python sample usage
+#### Python sample usage
 
 ```python
 import base64
@@ -201,9 +203,9 @@ for i in ret.items:
     print("%s\t%s\t%s" % (i.status.pod_ip, i.metadata.namespace, i.metadata.name))
 ```
 
-# Getting Started
+## Getting Started
 
-## Kubernetes Object Management
+### Kubernetes Object Management
 
 With the Kubernetes Python Client, you can create and manage Kubernetes objects programmatically.
 

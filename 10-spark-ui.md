@@ -1,4 +1,6 @@
-# Ingress
+# Spark UI
+
+## Ingress
 
 The Spark UI is accessible by creating a service of type `ClusterIP` which exposes the UI from the driver pod:
 
@@ -72,7 +74,7 @@ So for the UI to be effectively accessible through the Ingress, we must set up H
  root path (the one configured in the Ingress). To work smoothly, the UI itself must be aware of this redirection by
   setting `spark.ui.proxyBase` to this root path...and that's it!
 
-## Spark Operator
+### Spark Operator
 
 The operator supports creating an optional Ingress for the Spark Web UI. This can be turned on by setting the
  `ingress-url-format` command-line flag. The `ingress-url-format` should be a template like 
@@ -90,7 +92,7 @@ Example of Spark Operator install with the `ingress-url-format` command-line fla
 
 Note that curly braces must be escaped.
 
-# Future Work
+## Future Work
 
 The Spark Operator Ingress could not be enabled during my experiments, simply because a DNS name is required. Instead, 
 the same Ingress as for native Spark is "grafted" to the `SparkApplication`, with path-based routing.
