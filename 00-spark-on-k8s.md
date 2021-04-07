@@ -13,7 +13,7 @@ And when it comes to run Spark on Kubernetes, you have now two choices:
 
 - Use the Spark Operator, proposed and maintained by Google, which is still in beta version (and always will be).
 
-This series of 3 articles tells the story of my experiments with the two methods, and how I launch Spark 
-applications from Python code.
+This series of 3 articles tells the story of my experiments with both methods, and how I launch Spark applications 
+from Python code.
 
-_"Cabin crew, arm doors and cross check"_. Let's go!
+_"Cabin crew, arm doors and cross check"_. Let's go! :airplane:
