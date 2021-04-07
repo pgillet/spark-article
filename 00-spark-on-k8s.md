@@ -4,7 +4,7 @@ _I am talking about a time that under 20s cannot know_. Until not long ago, the 
 cluster was either with Spark's own standalone cluster manager, Mesos or YARN. In the meantime, the Kingdom of 
 Kubernetes has risen and spread widely.
 
-And when it comes to run Spark on Kubernetes, you have now two choices:
+And when it comes to run Spark on Kubernetes, you now have two choices:
 
 - Use "native" Spark's Kubernetes capabilities: Spark can run on clusters managed by Kubernetes since Spark 2.3.
   Kubernetes support was still flagged as experimental until very recently, but as per 
