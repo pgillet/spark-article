@@ -18,6 +18,8 @@ from Python code.
 
 _"Cabin crew, arm doors and cross check"_. Let's go! :airplane:
 
+<!--more-->
+
 # Prerequisites
 
 ## Service Account for Driver Pods
@@ -313,9 +315,6 @@ We did not set a specific value for the Helm chart property `sparkJobNamespace` 
 the Spark Operator supports deploying `SparkApplications` to all namespaces.
 As a consequence, the Spark Operator did not automatically create the service account for driver pods, and we must set 
 up the RBAC for driver pods of our `SparkApplications` to be able to manipulate executor pods in a specific namespace.
-
-See [Service Account for Driver Pods](../docs/gke.md#service-account-for-driver-pods) to set up the RBAC for driver 
-pods.
 
 See [About the Spark Job Namespace](https://github.com/GoogleCloudPlatform/spark-on-k8s-operator/blob/master/docs/quick-start-guide.md#about-the-spark-job-namespace) and [About the Service Account for Driver Pods](https://github.com/GoogleCloudPlatform/spark-on-k8s-operator/blob/master/docs/quick-start-guide.md#about-the-service-account-for-driver-pods) sections for more details.
 
