@@ -819,3 +819,5 @@ for event in w.stream(networking_v1_beta1_api.list_namespaced_ingress, namespace
     else:
         print('Event: Ingress not yet available')
 ```
+
+What a hell of a journey!

@@ -414,5 +414,5 @@ Eventually, choosing between the Spark Operator and spark-submit is a matter of 
 and you run Spark workloads among other types of workloads, or you do Spark first, and Kubernetes is just a mean to 
 allocate resources on a cluster.
 
-In the rest of this article, we will see how the magic of the Spark operator operates, by reproducing all of its 
+In the following article, we will see how the magic of the Spark operator operates, by reproducing all of its 
 internals with spark-submit.

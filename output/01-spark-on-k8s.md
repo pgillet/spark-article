@@ -366,3 +366,6 @@ We also set the label `spark-role` at the pod level to differentiate the drivers
 
 This naming and labeling is consistent with the Spark operator. As a result, Spark applications can be treated and 
 filtered in the same way, whether they are launched with the Spark operator or with spark-submit. :thumbsup:
+
+Now that we've defined all of our Kubernetes resources for spark-submit, we're going to get our hands on some Python 
+code to orchestrate all of this. See you in the third and final article in this series.
