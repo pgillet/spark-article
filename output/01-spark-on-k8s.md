@@ -352,6 +352,11 @@ To make the pod template file accessible to the spark-submit process, we must se
 `spark.kubernetes.executor.podTemplateFile` with its local pathname in the driver pod. To do so, the file will be 
 automatically mounted onto a volume in the driver pod when it’s created.
 
+We have now managed to mimic the same behavior we got with the Spark operator, here is what we have deployed in 
+Kubernetes:
+
+![spark-submit](./images/spark-submit.png)
+
 # Object Names and Labels
 
 We use the `app-name` label to semantically group all the Kubernetes resources related to a single Spark application.

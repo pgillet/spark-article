@@ -400,7 +400,11 @@ specifying, running, and monitoring Spark applications.
 
 With the high-level resource `SparkApplication`, the operator greatly reduces the boilerplate YAML configuration 
 files and takes care of all the needed plumbing for you: networking between the driver and its executors, garbage 
-collection, pod configuration, access to the driver UI. 
+collection, pod configuration, access to the driver UI.
+
+The following diagram shows what is actually deployed in Kubernetes under the hood:
+
+![spark operator](./images/spark-operator.png)
 
 In use, the operator is way much easier than `spark-submit`. But spark-submit is definitely not going away and is 
 still the Spark native way of launching applications. _"In the long term, for application submission, the operator 
