@@ -402,7 +402,7 @@ if __name__ == '__main__':
 `utils.create_from_dict` is the magic method here. It only takes a `dict` holding valid kubernetes objects. It is a 
 blessing to have found it, because it is well hidden in the client and not documented at all.
 
-There is an even more direct method `utils.create_from_yaml`, which reads Kubernetes objects from a yaml file.
+There is an even more direct method `utils.create_from_yaml`, which reads Kubernetes objects from a YAML file.
 But we cannot use it, as we need to "parameterize" our YAML files before submitting them to the Kubernetes Python 
 client.
 

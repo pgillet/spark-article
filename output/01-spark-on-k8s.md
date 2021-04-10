@@ -344,7 +344,7 @@ Note that curly braces must be escaped.
 
 ## Future Work
 
-The Spark Operator Ingress could not be enabled during my experiments, simply because a DNS name is required. Instead, 
+I could not enable the Spark Operator Ingress during my experiments, simply because a DNS name is required. Instead, 
 the same Ingress as for native Spark is "grafted" to the `SparkApplication`, with path-based routing.
  
 The operation proposed by the Spark Operator, with routing based on hostname wildcards (for example 
