@@ -1,3 +1,9 @@
+In the previous article, we saw how to launch Spark applications with the Spark Operator. In this article, we'll see 
+how to do the same thing, but natively with spark-submit. Let's first explain the differences between the two ways 
+of deploying your driver on the worker nodes.
+
+<!--more-->
+
 # Client vs Cluster Mode
 
 ## Spark-submit in cluster mode

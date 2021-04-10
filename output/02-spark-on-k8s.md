@@ -820,4 +820,9 @@ for event in w.stream(networking_v1_beta1_api.list_namespaced_ingress, namespace
         print('Event: Ingress not yet available')
 ```
 
-What a hell of a journey!
+# Conclusion
+
+What a hell of a journey! 
+
+Do you want to know more? The Python scripts explained in this last article are available in this [GitHub 
+repository](https://github.com/pgillet/k8s-python-client-examples). Serve yourself.
