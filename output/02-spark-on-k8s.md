@@ -1,10 +1,12 @@
-# Kubernetes Python Client
-
 We need to operate Kubernetes as part of a Python client application. So, we need to interact with the Kubernetes
  REST API. Luckily we do not need to implement the API calls and manage HTTP requests/responses ourselves: we
   can rely on the [Kubernetes Python client](https://github.com/kubernetes-client/python), among other 
-officially-supported Kubernetes client libraries for other languages such as Go, Java, dotnet, JavaScript and 
+officially-supported Kubernetes client libraries for other languages such as Go, Java, .NET, JavaScript and 
 Haskell (there are also a lot of community-maintained client libraries for many languages).
+
+<!--more-->
+
+# Kubernetes Python Client
 
 When using the Kubernetes Python Client library, we must first load authentication and cluster information.
 
@@ -210,7 +212,7 @@ for i in ret.items:
 With the Kubernetes Python Client, you can create and manage Kubernetes objects programmatically.
 
 In the following example (provided in the 
-[Github repository](https://githubcom/kubernetes-client/python/blob/master/examples/deployment_crud.py)), we create, 
+[GitHub repository](https://githubcom/kubernetes-client/python/blob/master/examples/deployment_crud.py)), we create, 
 update then delete a `Deployment` using `AppsV1Api`:
 
 ```python
@@ -340,25 +342,18 @@ We can directly load the manifest as follows:
 
 ```python
 from os import path
-
 import yaml
-
 from kubernetes import client, config
 
 
-def main():
-    config.load_kube_config("path/to/kubeconfig_file")
+config.load_kube_config("path/to/kubeconfig_file")
 
-    with open(path.join(path.dirname(__file__), "nginx-deployment.yaml")) as f:
-        dep = yaml.safe_load(f)
-        k8s_apps_v1 = client.AppsV1Api()
-        resp = k8s_apps_v1.create_namespaced_deployment(
-            body=dep, namespace="default")
-        print("Deployment created. status='%s'" % resp.metadata.name)
-
-
-if __name__ == '__main__':
-    main()
+with open(path.join(path.dirname(__file__), "nginx-deployment.yaml")) as f:
+    dep = yaml.safe_load(f)
+    k8s_apps_v1 = client.AppsV1Api()
+    resp = k8s_apps_v1.create_namespaced_deployment(
+        body=dep, namespace="default")
+    print("Deployment created. status='%s'" % resp.metadata.name)
 ```
 
 This is the equivalent in Python of `kubectl create -f nginx-deployment.yaml`.
@@ -368,43 +363,61 @@ call `create_namespaced_pod` to create a Pod, and so on. This is because the Pyt
 generated following the `OpenAPI` specifications of the Kubernetes API.
 
 It's a shame to have to call a specific method to create a particular type of object, even though the type of object 
-itself is already specified in the manifest that we load through this method. This is also true for 
-[custom resources](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/), that 
-means object types that are not part of the core Kubernetes API, typically `SparkApplication` from the Spark Operator.
-Indeed, you can pass a custom resource as a `Dict` to the `create_namespaced_custom_object` function, but you still 
-need to requalify the object type in the other required arguments (see this 
-[example](https://github.com/kubernetes-client/python/blob/master/examples/custom_object.py)).
-
-Luckily, the Kubernetes Python Client provides a utility method that acts as an input hub for any kind of object.
+itself is already specified in the manifest that we load through this method. Luckily, the Kubernetes Python Client 
+provides a utility method that acts as an input hub for any kind of object.
 
 ```python
-from os import path
-
+import os
 import yaml
-
 from kubernetes import client, config, utils
 
 
-def main():
-    config.load_kube_config("path/to/kubeconfig_file")
+config.load_kube_config("path/to/kubeconfig_file")
 
-    with open(path.join(path.dirname(__file__), "nginx-deployment.yaml")) as f:
-        dep = yaml.safe_load(f)
-        k8s_client = client.ApiClient()
-        resp = utils.create_from_dict(k8s_client, dep)
-        print("Deployment created. status='%s'" % resp[0].metadata.name)
-
-
-if __name__ == '__main__':
-    main()
+with open(os.path.join(os.path.dirname(__file__), "nginx-deployment.yaml")) as f:
+    dep = yaml.safe_load(f)
+    k8s_client = client.ApiClient()
+    resp = utils.create_from_dict(k8s_client, dep)
+    print("Deployment created. status='%s'" % resp[0].metadata.name)
 ```
 
-`utils.create_from_dict` is the magic method here. It only takes a `dict` holding valid kubernetes objects. It is a 
+`utils.create_from_dict` is the magic method here. It only takes a `Dict` holding valid kubernetes objects. It is a 
 blessing to have found it, because it is well hidden in the client and not documented at all.
 
-There is an even more direct method `utils.create_from_yaml`, which reads Kubernetes objects from a YAML file.
-But we cannot use it, as we need to "parameterize" our YAML files before submitting them to the Kubernetes Python 
-client.
+So, to launch a Spark job with spark-submit, you could just call the code snippet above with a single YAML file which 
+groups all the needed resources (separated by --- in YAML). 
+
+But what about the Spark Operator? `utils.create_from_dict` does not support 
+[custom resources](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/), that 
+means object types that are not part of the core Kubernetes API, namely `SparkApplication` from the Spark Operator.
+To run a Spark job with the Spark Operator, you have no other choice than calling the 
+`create_namespaced_custom_object` function of `CustomObjectsApi`:
+
+```python
+import os
+import yaml
+from kubernetes import client, config, utils
+
+
+config.load_kube_config("path/to/kubeconfig_file")
+
+with open(os.path.join(os.path.dirname(__file__), "k8s/spark-operator/pyspark-pi.yaml")) as f:
+    dep = yaml.safe_load(f)
+    custom_object_api = client.CustomObjectsApi()
+
+    custom_object_api.create_namespaced_custom_object(
+        group="sparkoperator.k8s.io",
+        version="v1beta2",
+        namespace="spark-jobs",
+        plural="sparkapplications",
+        body=dep,
+    )
+    print("SparkApplication created")
+```
+
+Regarding spark-submit, there is an even more direct method `utils.create_from_yaml`, which reads Kubernetes objects 
+from a YAML file. But we cannot use it, as we need to "parameterize" our YAML files before submitting them to the 
+Kubernetes Python client.
 
 # Templating
 
@@ -505,8 +518,7 @@ We just iterate over the YAML files that define these resources and just call th
 ```
 
 Now that we've launched a _full_ Spark application, let's see what happens when we kill it :smiling_imp: or when the 
-application 
-completes normally.
+application completes normally.
 
 # Garbage collection
 
@@ -514,7 +526,7 @@ completes normally.
 The role of the Kubernetes garbage collector is to delete certain objects that once had an owner, but no longer have 
 one. The goal is to make sure that the garbage collector properly deletes resources that are no longer needed when
  killing a Spark application.
-It is important to free up the resources of the k8s cluster when you are going to run tens / hundreds of Spark 
+It is important to free up the resources of the Kubernetes cluster when you are going to run tens / hundreds of Spark 
 applications in parallel.
 
 For this, certain Kubernetes objects can be declared owners of other objects. "Owned" objects are called *dependent* on  
@@ -545,7 +557,7 @@ driver pod: the executor pods automatically set the `ownerReference` field, poin
 manage the ownership relationship ourselves for the other `ConfigMap`, `Service` and `Ingress` resources.
 For this, we must retrieve the auto-generated `uid` of the newly created driver pod and inject it into the dependent 
 objects: it is impossible to manually set the `uid` in the YAML definition files, this can only be done at runtime 
-through code.
+through code (and that's why we cannot put all the resources in a single YAML file).
 
 ```python
 import binascii
@@ -629,8 +641,8 @@ spec:
   timeToLiveSeconds: 86400
 ```
 
-On the native Spark side, there is nothing in the doc that specifies how driver pods are ultimately deleted.  
-We could set up a simple Kubernetes [`CronJob`](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/)
+On the native Spark side, there is nothing in the doc that specifies how driver pods are ultimately deleted. We 
+could set up a simple Kubernetes [`CronJob`](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/)
 that would run periodically to delete them automatically.
 
 At the time of writing this article, there are pending requests in Kubernetes to support TTL in `Pods` like in  
@@ -653,7 +665,7 @@ core_v1_api = client.CoreV1Api()
 core_v1_api.delete_namespaced_pod("driver-pod-name", "spark-jobs", propagation_policy="Background")
 ```
 
-To delete a `SparkApplication`:
+To delete a Spark job launched with the Spark Operator, we must delete the enclosing `SparkApplication` resource:
 
 ```python
 from kubernetes import client, config
@@ -777,6 +789,7 @@ Getting the logs is just as easy:
 
 ```python
 from kubernetes import client, watch
+from threading import Thread
 
 v1 = client.CoreV1Api()
 pod_name = 'pyspark-pi-routine-bf20cae50b6a8253-driver'
@@ -822,7 +835,12 @@ for event in w.stream(networking_v1_beta1_api.list_namespaced_ingress, namespace
 
 # Conclusion
 
-What a hell of a journey! 
+What a hell of a journey!
 
-Do you want to know more? The Python scripts explained in this last article are available in this [GitHub 
+We have seen that the Python code for launching or deleting Spark applications is slightly different depending on 
+whether we are using the Spark operator or spark-submit. But since we name and label the Kubernetes objects 
+consistently between the two, and as we set the ownership relationships properly, we can monitor our Spark 
+applications and manage their lifecycle equally. 
+
+Would you like to know more? The Python scripts explained in this last article are available in this [GitHub 
 repository](https://github.com/pgillet/k8s-python-client-examples). Serve yourself.
