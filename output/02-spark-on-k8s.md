@@ -8,7 +8,11 @@ Haskell (there are also a lot of community-maintained client libraries for many 
 
 # Kubernetes Python Client
 
-When using the Kubernetes Python Client library, we must first load authentication and cluster information.
+The Kubernetes Python Client is compatible with Python 2.7 and 3.4+. See the 
+[compatibility matrix](https://github.com/kubernetes-client/python#compatibility) for the supported versions of 
+Kubernetes.
+
+When using the client library, we must first load authentication and cluster information.
 
 ## Load Authentication And Cluster Information
 
