@@ -108,7 +108,6 @@ To use priority and preemption capabilities, we must first create the necessary 
 
 `k8s/priorities.yaml`
 ```yaml
----
 apiVersion: scheduling.k8s.io/v1
 kind: PriorityClass
 metadata:
