@@ -32,15 +32,15 @@ object in your main program, called the `driver`. Once connected, the SparkConte
 cluster, which are the processes that run computations and store data for your application_.
 
 Thus, Spark driver pods need a Kubernetes service account in the pod's namespace that has permissions to create, get, 
-list, and delete executor pods. Below an example RBAC setup that creates a driver service account named `yippee-spark` in
+list, and delete executor pods. Below an example RBAC setup that creates a driver service account named `driver-sa` in
  the namespace `spark-jobs`, with a RBAC role binding giving the service account the needed permissions.
 
-`k8s/yippee-spark-rbac.yaml`
+`k8s/driver-sa-rbac.yaml`
 ```yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: yippee-spark
+  name: driver-sa
   namespace: spark-jobs
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -63,7 +63,7 @@ metadata:
   namespace: spark-jobs
 subjects:
 - kind: ServiceAccount
-  name: yippee-spark
+  name: driver-sa
   namespace: spark-jobs
 roleRef:
   kind: Role
@@ -73,7 +73,7 @@ roleRef:
 
 ```bash
 kubectl create namespace spark-jobs
-kubectl create -f k8s/yippee-spark-rbac.yaml
+kubectl create -f k8s/driver-sa-rbac.yaml
 ```
 
 ## Node Affinity
@@ -334,7 +334,7 @@ kubectl apply -f examples/spark-py-pi.yaml
 Let's take a closer look at the 
 [Pi example](https://github.com/GoogleCloudPlatform/spark-on-k8s-operator/blob/master/examples/spark-py-pi.yaml) 
 from the Spark Operator. A single YAML file is needed, adapted to our configuration: `.metadata.namespace` must be 
-set to "spark-jobs" and  `.spec.driver.serviceAccount` is set to the name of the service account "yippee-spark" 
+set to "spark-jobs" and  `.spec.driver.serviceAccount` is set to the name of the service account "driver-sa" 
 previously created.
 
 ```yaml
@@ -377,7 +377,7 @@ spec:
     memory: "512m"
     labels:
       version: 3.0.0
-    serviceAccount: yippee-spark
+    serviceAccount: driver-sa
   executor:
     affinity:
       nodeAffinity:

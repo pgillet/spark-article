@@ -87,7 +87,7 @@ This command creates a new service account named `python-client-sa`, a new role 
 `spark-jobs` namespace and then binds the new role to the newly created service account.
 
 **WARNING**: The `python-client-sa` is the service account that will provide the identity for the Kubernetes Python 
-Client in our application. Do not confuse this service account with the `yippee-spark` service account for 
+Client in our application. Do not confuse this service account with the `driver-sa` service account for 
 driver pods.
 
 ### The Easy Way
@@ -476,7 +476,7 @@ def main():
     name_suffix = "-" + binascii.b2a_hex(os.urandom(8))
     priority_class_name = "routine"
     env_subst = {"${NAMESPACE}": "spark-jobs",
-                 "${SERVICE_ACCOUNT_NAME}": "yippee-spark",
+                 "${SERVICE_ACCOUNT_NAME}": "driver-sa",
                  "${DRIVER_NODE_AFFINITIES}": "driver",
                  "${EXECUTOR_NODE_AFFINITIES}": "compute",
                  "${NAME_SUFFIX}": name_suffix,
@@ -590,7 +590,7 @@ def main():
     name_suffix = "-" + binascii.b2a_hex(os.urandom(8))
     priority_class_name = "routine"
     env_subst = {"${NAMESPACE}": "spark-jobs",
-                 "${SERVICE_ACCOUNT_NAME}": "yippee-spark",
+                 "${SERVICE_ACCOUNT_NAME}": "driver-sa",
                  "${DRIVER_NODE_AFFINITIES}": "driver",
                  "${EXECUTOR_NODE_AFFINITIES}": "compute",
                  "${NAME_SUFFIX}": name_suffix,
