@@ -269,7 +269,7 @@ In this section, you use [Helm](https://github.com/kubernetes/helm) to deploy th
 
 ### Install Helm
 
-1. Downlad and install the `Helm` binary:
+1. Download and install the `Helm` binary:
 
 ```bash
 wget https://get.helm.sh/helm-v3.3.4-linux-amd64.tar.gz
