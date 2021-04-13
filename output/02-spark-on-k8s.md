@@ -719,16 +719,16 @@ LAST SEEN   TYPE      REASON             OBJECT                                 
 80s         Normal    Started            pod/pythonpi-34b3597593d246a1-exec-2                     Started container spark-kubernetes-executor
 42s         Normal    Killing            pod/pythonpi-34b3597593d246a1-exec-1                     Stopping container spark-kubernetes-executor
 42s         Normal    Killing            pod/pythonpi-34b3597593d246a1-exec-2                     Stopping container spark-kubernetes-executor
-42s         Warning   FailedScheduling   pod/pyspark-pi-driver-urgent-bb25fc0b8efe7c4d            all nodes are unavailable: 3 node(s) resource fit failed.
+42s         Warning   FailedScheduling   pod/pyspark-pi-driver-rush-bb25fc0b8efe7c4d              all nodes are unavailable: 3 node(s) resource fit failed.
 <b>42s         Normal    Killing            pod/pyspark-pi-driver-routine-bf20cae50b6a8253           Stopping container pyspark-pi
 42s         Warning   Evict              pod/pyspark-pi-driver-routine-bf20cae50b6a8253           Pod is evicted, because of preempt</b>
 34s         Warning   Unschedulable      podgroup/podgroup-ee4b9210-35c2-4d68-841a-2daf7712a816   0/1 tasks in gang unschedulable: pod group is not ready, 1 Pipelined, 1 minAvailable.
-41s         Warning   FailedScheduling   pod/pyspark-pi-driver-urgent-bb25fc0b8efe7c4d            1/1 tasks in gang unschedulable: pod group is not ready, 1 Pipelined, 1 minAvailable.
+41s         Warning   FailedScheduling   pod/pyspark-pi-driver-rush-bb25fc0b8efe7c4d              1/1 tasks in gang unschedulable: pod group is not ready, 1 Pipelined, 1 minAvailable.
 18s         Normal    Scheduled          podgroup/podgroup-ee4b9210-35c2-4d68-841a-2daf7712a816   pod group is ready
-33s         Normal    Scheduled          pod/pyspark-pi-driver-urgent-bb25fc0b8efe7c4d            Successfully assigned spark-jobs/pyspark-pi-driver-urgent-bb25fc0b8efe7c4d to gke-yippee-spark-k8s-clus-default-pool-0b72dd1d-jpfp
-32s         Normal    Started            pod/pyspark-pi-driver-urgent-bb25fc0b8efe7c4d            Started container pyspark-pi
-32s         Normal    Created            pod/pyspark-pi-driver-urgent-bb25fc0b8efe7c4d            Created container pyspark-pi
-32s         Normal    Pulled             pod/pyspark-pi-driver-urgent-bb25fc0b8efe7c4d            Container image "eu.gcr.io/yippee-spark-k8s/spark-py:3.0.1" already present on machine
+33s         Normal    Scheduled          pod/pyspark-pi-driver-rush-bb25fc0b8efe7c4d              Successfully assigned spark-jobs/pyspark-pi-driver-rush-bb25fc0b8efe7c4d to gke-yippee-spark-k8s-clus-default-pool-0b72dd1d-jpfp
+32s         Normal    Started            pod/pyspark-pi-driver-rush-bb25fc0b8efe7c4d              Started container pyspark-pi
+32s         Normal    Created            pod/pyspark-pi-driver-rush-bb25fc0b8efe7c4d              Created container pyspark-pi
+32s         Normal    Pulled             pod/pyspark-pi-driver-rush-bb25fc0b8efe7c4d              Container image "eu.gcr.io/yippee-spark-k8s/spark-py:3.0.1" already present on machine
 22s         Normal    Scheduled          pod/pythonpi-f36cce7593d332f1-exec-1                     Successfully assigned spark-jobs/pythonpi-f36cce7593d332f1-exec-1 to gke-yippee-spark-k8s-clus-default-pool-0b72dd1d-wxck
 22s         Normal    Scheduled          pod/pythonpi-f36cce7593d332f1-exec-2                     Successfully assigned spark-jobs/pythonpi-f36cce7593d332f1-exec-2 to gke-yippee-spark-k8s-clus-default-pool-0b72dd1d-pvdl
 22s         Normal    Pulled             pod/pythonpi-f36cce7593d332f1-exec-1                     Container image "eu.gcr.io/yippee-spark-k8s/spark-py:3.0.1" already present on machine
@@ -740,7 +740,7 @@ LAST SEEN   TYPE      REASON             OBJECT                                 
 </pre>
 
 In the output above, we can see that the pod `pyspark-pi-driver-routine-bf20cae50b6a8253` has been "evicted because of 
-preempt".
+preempt" by another job with the "rush" priority.
 
 ## Future work
 
