@@ -842,7 +842,7 @@ for event in w.stream(networking_v1_beta1_api.list_namespaced_ingress, namespace
 What a hell of a journey!
 
 We have seen that the Python code for launching or deleting Spark applications is slightly different depending on 
-whether we are using the Spark operator or spark-submit. But since we name and label the Kubernetes objects 
+whether we are using the Spark Operator or spark-submit. But since we name and label the Kubernetes objects 
 consistently between the two, and as we set the ownership relationships properly, we can monitor our Spark 
 applications and manage their lifecycle equally. 
 

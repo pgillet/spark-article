@@ -370,12 +370,12 @@ for the Spark UI service, `-ui-ingress` for the Spark UI ingress, and `-cm` for 
 
 We also set the label `spark-role` at the pod level to differentiate the drivers from their executors.
 
-This naming and labeling is consistent with the Spark operator. As a result, Spark applications can be treated and 
-filtered in the same way, whether they are launched with the Spark operator or with spark-submit. :thumbsup:
+This naming and labeling is consistent with the Spark Operator. As a result, Spark applications can be treated and 
+filtered in the same way, whether they are launched with the Spark Operator or with spark-submit. :thumbsup:
 
 # Deployment
 
-We have now managed to mimic the same behavior we got with the Spark operator, here is what we have deployed in 
+We have now managed to mimic the same behavior we got with the Spark Operator, here is what we have deployed in 
 Kubernetes:
 
 ![spark-submit](./images/spark-submit.png)
